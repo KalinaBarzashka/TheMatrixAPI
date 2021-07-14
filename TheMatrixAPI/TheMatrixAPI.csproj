@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-TheMatrixAPI-D4B71A08-AD39-4FF8-9CAB-E9FF55565491</UserSecretsId>
+    <UserSecretsId>aspnet-TheMatrixAPI-F3A160BB-6D3D-4CAF-B956-962B9D59F15F</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
