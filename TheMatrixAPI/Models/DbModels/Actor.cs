@@ -3,18 +3,28 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheMatrixAPI.Models.DbModels
 {
-    public class Actors
+    public class Actor
     {
+        public Actor()
+        {
+            this.Movies = new HashSet<Movie>();
+        }
+
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string FirstName { get; set; }
 
+        [MaxLength(100)]
         public string MiddleName { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string LastName { get; set; }
 
-        public string GetName 
+        public string FullName
         { 
             get
             {
@@ -22,6 +32,6 @@ namespace TheMatrixAPI.Models.DbModels
             }
         }
 
-        public virtual ICollection<Movies> Movies { get; set; }
+        public virtual ICollection<Movie> Movies { get; set; }
     }
 }

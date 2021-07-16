@@ -2,15 +2,16 @@
 
 namespace TheMatrixAPI.Models.DbModels
 {
-    public class Quotes
+    public class Quote
     {
         [Key]
         public int Id { get; set; }
 
-        public string Quote { get; set; }
+        [Required]
+        public string QuoteLine { get; set; }
 
         public int CharacterId { get; set; }
 
-        public Characters Character { get; set; }
+        public Character Character { get; set; }
     }
 }

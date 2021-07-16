@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TheMatrixAPI.Models.DbModels
+namespace TheMatrixAPI.Models.DTO
 {
-    public class Movies
+    public class MovieDTO
     {
-        [Key]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -31,8 +31,8 @@ namespace TheMatrixAPI.Models.DbModels
 
         public decimal BoxOffice { get; set; }
 
-        public virtual ICollection<Actors> Actors { get; set; }
+        public List<MovieActorDTO> Actors { get; set; }
 
-        public virtual ICollection<Races> Races { get; set; }
+        public List<MovieRaceDTO> Races { get; set; }
     }
 }
