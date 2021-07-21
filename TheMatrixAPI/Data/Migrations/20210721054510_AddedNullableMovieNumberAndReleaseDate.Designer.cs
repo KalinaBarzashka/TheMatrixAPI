@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheMatrixAPI.Data;
 
 namespace TheMatrixAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721054510_AddedNullableMovieNumberAndReleaseDate")]
+    partial class AddedNullableMovieNumberAndReleaseDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,10 +310,10 @@ namespace TheMatrixAPI.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<decimal?>("BoxOffice")
+                    b.Property<decimal>("BoxOffice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("Budget")
+                    b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Country")
@@ -330,8 +332,8 @@ namespace TheMatrixAPI.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("MovieLength")
-                        .HasColumnType("int");
+                    b.Property<decimal>("MovieLength")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("MovieNumber")
                         .HasColumnType("int");

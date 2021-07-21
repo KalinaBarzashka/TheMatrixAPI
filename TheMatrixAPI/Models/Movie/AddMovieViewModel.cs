@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TheMatrixAPI.Models.DbModels
+namespace TheMatrixAPI.Models.Movie
 {
-    public class Movie
+    public class AddMovieViewModel
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Display(Name="Movie Number")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Movie Number must be grater than 0")]
         public int? MovieNumber { get; set; }
 
+        [Display(Name = "Movie Length")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Movie length must be at least 1 minute.")]
         public int? MovieLength { get; set; }
 
         [MaxLength(100)]
@@ -24,10 +23,13 @@ namespace TheMatrixAPI.Models.DbModels
         [MaxLength(100)]
         public string Producer { get; set; }
 
+        [Display(Name = "Distributed By")]
         [MaxLength(100)]
         public string DistributedBy { get; set; }
 
-        public DateTime? ReleaseDate { get; set; }
+        [Display(Name = "Release Date")]
+        [RegularExpression(@"^(0[1-9]|[12][0-9]|3[01])[\/](0[0-9]|1[0-2])[\/][0-9]{4}$", ErrorMessage = "Release date must valid!")]
+        public string ReleaseDate { get; set; }
 
         [MaxLength(100)]
         public string Country { get; set; }
@@ -35,14 +37,9 @@ namespace TheMatrixAPI.Models.DbModels
         [MaxLength(100)]
         public string Language { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal? Budget { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Box Office")]
         public decimal? BoxOffice { get; set; }
-
-        public virtual ICollection<Actor> Actors { get; set; }
-
-        public virtual ICollection<Race> Races { get; set; }
     }
 }

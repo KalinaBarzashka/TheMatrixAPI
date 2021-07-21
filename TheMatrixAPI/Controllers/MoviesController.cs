@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TheMatrixAPI.Data;
-using TheMatrixAPI.Models;
 using TheMatrixAPI.Models.DbModels;
 using TheMatrixAPI.Models.DTO;
+using TheMatrixAPI.Models.Movie;
 
 namespace TheMatrixAPI.Controllers
 {
@@ -52,9 +50,32 @@ namespace TheMatrixAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(string data)
+        public IActionResult Add(AddMovieViewModel movieData)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return this.View(movieData);
+            }
+
+            var movie = new Movie
+            {
+                Name = movieData.Name,
+                MovieNumber = movieData.MovieNumber,
+                MovieLength = movieData.MovieLength,
+                Director = movieData.Director,
+                Producer = movieData.Producer,
+                DistributedBy = movieData.DistributedBy,
+                ReleaseDate = movieData.ReleaseDate == null ? null : DateTime.Parse(movieData.ReleaseDate),
+                Country = movieData.Country,
+                Language = movieData.Language,
+                Budget = movieData.Budget,
+                BoxOffice = movieData.BoxOffice,
+            };
+
+            this.dbContext.Add(movie);
+            this.dbContext.SaveChanges();
+
+            return Redirect("/");
         }
 
         //var moviesTest = dbContext.Movies
