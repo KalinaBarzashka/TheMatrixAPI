@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
+using System.Globalization;
 using System.Linq;
 using TheMatrixAPI.Data;
+using TheMatrixAPI.Models;
 using TheMatrixAPI.Models.DbModels;
 using TheMatrixAPI.Models.DTO;
 using TheMatrixAPI.Models.Movie;
@@ -78,35 +79,96 @@ namespace TheMatrixAPI.Controllers
             return Redirect("/");
         }
 
-        //var moviesTest = dbContext.Movies
-        //    .Select(x => new MovieDTO
-        //    {
-        //        Id = x.Id,
-        //        Name = x.Name,
-        //        MovieNumber = x.MovieNumber,
-        //        MovieLength = x.MovieLength,
-        //        Director = x.Director,
-        //        Producer = x.Producer,
-        //        DistributedBy = x.DistributedBy,
-        //        ReleaseDate = x.ReleaseDate,
-        //        Country = x.Country,
-        //        Language = x.Language,
-        //        Budget = x.Budget,
-        //        BoxOffice = x.BoxOffice,
-        //        Actors = x.Actors
-        //            .Select(a => new MovieActorDTO
-        //            {
-        //                Id = a.Id,
-        //                FullName = a.FullName,
-        //                Url = "https://thematrixapi.com/api/actors/" + a.Id
-        //            }).ToList(),
-        //        Races = x.Races
-        //            .Select(r => new MovieRaceDTO
-        //            {
-        //                Id = r.Id,
-        //                Name = r.Name,
-        //                Url = "https://thematrixapi.com/api/races/" + r.Id
-        //            }).ToList()
-        //    }).ToList();
-    }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var movie = this.dbContext.Movies
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            var data = new EditMovieViewModel
+            {
+                Id = movie.Id,
+                Name = movie.Name,
+                MovieNumber = movie.MovieNumber,
+                MovieLength = movie.MovieLength,
+                Director = movie.Director,
+                Producer = movie.Producer,
+                DistributedBy = movie.DistributedBy,
+                ReleaseDate = movie.ReleaseDate == null ? null : movie.ReleaseDate?.ToString("dd/MM/yyyy"),
+                Country = movie.Country,
+                Language = movie.Language,
+                Budget = movie.Budget,
+                BoxOffice = movie.BoxOffice,
+            };
+
+            return this.View(data);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, EditMovieViewModel movieData)
+        {
+            var originalMovie = dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
+            if (originalMovie == null)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Movie not found!"
+                };
+                return this.View("/Errors", errorModel);
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                return this.View(movieData);
+            }
+
+            originalMovie.Name = movieData.Name;
+            originalMovie.MovieNumber = movieData.MovieNumber;
+            originalMovie.MovieLength = movieData.MovieLength;
+            originalMovie.Director = movieData.Director;
+            originalMovie.Producer = movieData.Producer;
+            originalMovie.DistributedBy = movieData.DistributedBy;
+            originalMovie.ReleaseDate = movieData.ReleaseDate == null ? null : DateTime.Parse(movieData.ReleaseDate);
+            originalMovie.Country = movieData.Country;
+            originalMovie.Language = movieData.Language;
+            originalMovie.Budget = movieData.Budget;
+            originalMovie.BoxOffice = movieData.BoxOffice;
+
+            dbContext.SaveChanges();
+
+            return Ok();
+        }
+
+            //var moviesTest = dbContext.Movies
+            //    .Select(x => new MovieDTO
+            //    {
+            //        Id = x.Id,
+            //        Name = x.Name,
+            //        MovieNumber = x.MovieNumber,
+            //        MovieLength = x.MovieLength,
+            //        Director = x.Director,
+            //        Producer = x.Producer,
+            //        DistributedBy = x.DistributedBy,
+            //        ReleaseDate = x.ReleaseDate,
+            //        Country = x.Country,
+            //        Language = x.Language,
+            //        Budget = x.Budget,
+            //        BoxOffice = x.BoxOffice,
+            //        Actors = x.Actors
+            //            .Select(a => new MovieActorDTO
+            //            {
+            //                Id = a.Id,
+            //                FullName = a.FullName,
+            //                Url = "https://thematrixapi.com/api/actors/" + a.Id
+            //            }).ToList(),
+            //        Races = x.Races
+            //            .Select(r => new MovieRaceDTO
+            //            {
+            //                Id = r.Id,
+            //                Name = r.Name,
+            //                Url = "https://thematrixapi.com/api/races/" + r.Id
+            //            }).ToList()
+            //    }).ToList();
+        }
 }

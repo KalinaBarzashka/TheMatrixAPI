@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TheMatrixAPI.Models.DbModels;
 using TheMatrixAPI.Models.DTO;
+using TheMatrixAPI.Models.Movie;
 
 namespace TheMatrixAPI.Mapping
 {
