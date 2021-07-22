@@ -14,6 +14,8 @@ namespace TheMatrixAPI.Models.DbModels
         [MaxLength(100)]
         public string Name { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public int? MovieNumber { get; set; }
 
         public int? MovieLength { get; set; }

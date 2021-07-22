@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TheMatrixAPI.Models.DbModels.Movie>
+
+<div class="movie-container">
+    @foreach (var movie in Model)
+    {
+        <div class="movie-item">
+            <div>@movie.Name</div>
+        </div>
+    }
+</div>
+
+<style>
+    .movie-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .movie-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 400px;
+        width: 320px;
+        padding: 20px;
+        border-radius: 5px;
+        background: #fffffb;
+        position: relative;
+        box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
+        margin: 8px;
+    }
+</style>

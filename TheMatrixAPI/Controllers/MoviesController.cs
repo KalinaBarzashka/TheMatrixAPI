@@ -23,8 +23,16 @@ namespace TheMatrixAPI.Controllers
             this.mapper = mapper;
         }
 
-        [Route("/api/movies")]
+        [Route("/movies")]
         public IActionResult GetAll()
+        {
+            var movies = this.dbContext.Movies.ToList();
+
+            return this.View(movies);
+        }
+
+        [Route("/api/movies")]
+        public IActionResult GetAllJson()
         {
             var movies = dbContext.Movies
                 .ProjectTo<MovieDTO>(this.mapper.ConfigurationProvider)
@@ -44,7 +52,6 @@ namespace TheMatrixAPI.Controllers
             return this.Json(movie);
         }
 
-        [HttpGet]
         public IActionResult Add()
         {
             return this.View();
@@ -79,12 +86,20 @@ namespace TheMatrixAPI.Controllers
             return Redirect("/");
         }
 
-        [HttpGet]
         public IActionResult Edit(int id)
         {
             var movie = this.dbContext.Movies
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
+
+            if (id == 0 || movie == null)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Movie not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
 
             var data = new EditMovieViewModel
             {
@@ -137,7 +152,36 @@ namespace TheMatrixAPI.Controllers
 
             dbContext.SaveChanges();
 
-            return Ok();
+            return Redirect("/");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var movie = this.dbContext.Movies
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            if (id == 0 || movie == null)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Movie not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            return this.View(movie);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult PostDelete(int id)
+        {
+            var movie = this.dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
+            this.dbContext.Movies.Remove(movie);
+            this.dbContext.SaveChanges();
+
+            return Redirect("/");
         }
 
             //var moviesTest = dbContext.Movies
