@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheMatrixAPI.Data;
 
 namespace TheMatrixAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210723154942_AddedMovieImageUrl")]
+    partial class AddedMovieImageUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,9 +258,6 @@ namespace TheMatrixAPI.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CharacterId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -285,9 +284,6 @@ namespace TheMatrixAPI.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("ActorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Alignment")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -301,10 +297,6 @@ namespace TheMatrixAPI.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActorId")
-                        .IsUnique()
-                        .HasFilter("[ActorId] IS NOT NULL");
 
                     b.HasIndex("RaceId");
 
@@ -487,17 +479,11 @@ namespace TheMatrixAPI.Data.Migrations
 
             modelBuilder.Entity("TheMatrixAPI.Models.DbModels.Character", b =>
                 {
-                    b.HasOne("TheMatrixAPI.Models.DbModels.Actor", "Actor")
-                        .WithOne("Character")
-                        .HasForeignKey("TheMatrixAPI.Models.DbModels.Character", "ActorId");
-
                     b.HasOne("TheMatrixAPI.Models.DbModels.Race", "Race")
                         .WithMany("Characters")
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Actor");
 
                     b.Navigation("Race");
                 });
@@ -510,11 +496,6 @@ namespace TheMatrixAPI.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("TheMatrixAPI.Models.DbModels.Actor", b =>
-                {
                     b.Navigation("Character");
                 });
 

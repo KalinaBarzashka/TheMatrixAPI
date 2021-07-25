@@ -1,0 +1,75 @@
+﻿@model IEnumerable<TheMatrixAPI.Models.DTO.ActorDTO>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Character</th>
+            @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DbModels.Movie>))
+            {
+                <th>@movie.Name</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var actor in Model)
+        {
+            <tr>
+                <td>@actor.FirstName</td>
+                <td>@actor.LastName</td>
+                <td>@actor.Character?.Name</td>
+                @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DbModels.Movie>))
+                {
+                    <td>
+                        @if (actor.Movies.Any(x => x.Id == movie.Id))
+                        {
+                            <i class="bi bi-person-check-fill actor-bi-check"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-person-x-fill actor-bi-x"></i>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<style>
+    .movie-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .actor-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 400px;
+        width: 320px;
+        padding: 20px;
+        border-radius: 5px;
+        background: #fffffb;
+        position: relative;
+        box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
+        margin: 8px;
+    }
+
+    .actor-bi-check {
+        color: green;
+        font-size: 20px;
+    }
+
+    .actor-bi-x {
+        color: red;
+        font-size: 20px;
+    }
+</style>

@@ -14,9 +14,10 @@ namespace TheMatrixAPI.Data.Seeding
                 return;
             }
 
-            await dbContext.Movies.AddAsync(new Movie 
+            dbContext.Movies.Add(new Movie 
             { 
                 Name = "The Matrix",
+                ImageUrl = "https://thematrixapi.com/images/The_Matrix_1_Poster.jpg",
                 MovieNumber = 1,
                 MovieLength = 136,
                 Director = "The Wachowskis",
@@ -29,9 +30,10 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 465-000-000.30M
             });
 
-            await dbContext.Movies.AddAsync(new Movie
+            dbContext.Movies.Add(new Movie
             {
                 Name = "The Matrix Reloaded",
+                ImageUrl = "https://thematrixapi.com/images/The_Matrix_2_Poster.jpg",
                 MovieNumber = 2,
                 MovieLength = 138,
                 Director = "The Wachowskis",
@@ -44,9 +46,10 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 739-000-000.04M
             });
 
-            await dbContext.Movies.AddAsync(new Movie
+            dbContext.Movies.Add(new Movie
             {
                 Name = "The Matrix Revolutions",
+                ImageUrl = "https://thematrixapi.com/images/The_Matrix_3_Poster.jpg",
                 MovieNumber = 3,
                 MovieLength = 129,
                 Director = "The Wachowskis",
@@ -59,7 +62,7 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 427-000-000.03M
             });
 
-            await dbContext.Movies.AddAsync(new Movie
+            dbContext.Movies.Add(new Movie
             {
                 Name = "The Matrix 4",
                 MovieNumber = 4,

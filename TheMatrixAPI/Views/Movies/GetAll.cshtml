@@ -3,8 +3,22 @@
 <div class="movie-container">
     @foreach (var movie in Model)
     {
+        var url = movie.ImageUrl != null ? movie.ImageUrl.Split("/") : new string[1];
+        var imageUrl = url[url.Length - 1];
+
         <div class="movie-item">
-            <div>@movie.Name</div>
+            <div class="movie-img-container">
+                @if (imageUrl != null)
+                {
+                    <img class="movie-img" src="/images/@imageUrl" alt="Card image cap">
+                }
+            </div>
+            
+            <div class="movie-body">
+                <h5 class="card-title">@movie.Name</h5>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-primary">Delete</a>
+            </div>
         </div>
     }
 </div>
@@ -16,21 +30,33 @@
         justify-content: center;
         padding-left: 5px;
         padding-right: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
     }
 
     .movie-item {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 400px;
         width: 320px;
-        padding: 20px;
         border-radius: 5px;
         background: #fffffb;
         position: relative;
         box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
         margin: 8px;
+    }
+
+    .movie-img-container {
+        overflow: hidden;
+        height: 450px;
+    }
+
+    .movie-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .movie-body {
+        padding: 20px;
     }
 </style>

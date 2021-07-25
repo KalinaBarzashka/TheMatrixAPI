@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TheMatrixAPI.Models.DTO
 {
@@ -10,6 +8,8 @@ namespace TheMatrixAPI.Models.DTO
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public int MovieNumber { get; set; }
 
@@ -21,7 +21,7 @@ namespace TheMatrixAPI.Models.DTO
 
         public string DistributedBy { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public string Country { get; set; }
 

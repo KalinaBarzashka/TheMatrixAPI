@@ -1,31 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace TheMatrixAPI.Models.DbModels
+namespace TheMatrixAPI.Models.DTO
 {
-    public class Actor
+    public class ActorDTO
     {
-        public Actor()
-        {
-            this.Movies = new HashSet<Movie>();
-        }
-
-        [Key]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(100)]
         public string FirstName { get; set; }
 
-        [MaxLength(100)]
         public string MiddleName { get; set; }
 
-        [Required]
-        [MaxLength(100)]
         public string LastName { get; set; }
 
         public string FullName
-        { 
+        {
             get
             {
                 return this.FirstName + " " + this.MiddleName + " " + this.LastName;
@@ -34,8 +22,13 @@ namespace TheMatrixAPI.Models.DbModels
 
         public int? CharacterId { get; set; }
 
-        public Character Character { get; set; }
+        public ActorCharacterDTO Character { get; set; }
 
-        public virtual ICollection<Movie> Movies { get; set; }
+        public List<ActorMovieDTO> Movies { get; set; }
+    }
+
+    public class ActorCharacterDTO
+    {
+        public string Name { get; set; }
     }
 }

@@ -26,6 +26,11 @@ namespace TheMatrixAPI.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Actor>().Ignore(x => x.FullName);
+
+            builder.Entity<Actor>()
+                .HasOne(c => c.Character)
+                .WithOne(a => a.Actor)
+                .HasForeignKey<Character>(x => x.ActorId);
         }
     }
 }

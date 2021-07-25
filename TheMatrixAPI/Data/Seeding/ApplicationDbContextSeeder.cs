@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace TheMatrixAPI.Data.Seeding
@@ -21,6 +20,8 @@ namespace TheMatrixAPI.Data.Seeding
 
             var seeders = new List<ISeeder>
                           {
+                              new RaceSeeder(),
+                              new CharacterSeeder(),
                               new MovieSeeder(),
                               new ActorSeeder()
                           };
