@@ -26,6 +26,11 @@ namespace TheMatrixAPI.Data.Seeding
                 Race = humans
             };
 
+            neo.Quotes.Add(new Quote
+            {
+                QuoteLine = "test"
+            });
+
             var morpheus = new Character
             {
                 Name = "Morpheus",

@@ -36,6 +36,9 @@ namespace TheMatrixAPI.Data.Seeding
                 LastName = "Fishburne III",
             };
 
+            var morpheus = dbContext.Characters.Where(x => x.Name == "Morpheus").FirstOrDefault();
+            laurence.Character = morpheus;
+
             var carrie = new Actor
             {
                 FirstName = "Carrie-Anne",
@@ -43,12 +46,18 @@ namespace TheMatrixAPI.Data.Seeding
                 LastName = "Moss",
             };
 
+            var trinity = dbContext.Characters.Where(x => x.Name == "Trinity").FirstOrDefault();
+            carrie.Character = trinity;
+
             var hugo = new Actor
             {
                 FirstName = "Hugo",
                 MiddleName = "Wallace",
                 LastName = "Weaving",
             };
+
+            var agentSmith = dbContext.Characters.Where(x => x.Name == "Agent Smith").FirstOrDefault();
+            hugo.Character = agentSmith;
 
             keanu.Movies.Add(firstMovie);
             keanu.Movies.Add(secondMovie);

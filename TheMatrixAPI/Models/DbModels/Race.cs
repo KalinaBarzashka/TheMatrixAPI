@@ -8,6 +8,7 @@ namespace TheMatrixAPI.Models.DbModels
         public Race()
         {
             this.Characters = new HashSet<Character>();
+            this.Movies = new HashSet<Movie>();
         }
 
         [Key]

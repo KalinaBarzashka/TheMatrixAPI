@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheMatrixAPI.Models.DbModels;
@@ -14,8 +15,12 @@ namespace TheMatrixAPI.Data.Seeding
                 return;
             }
 
-            dbContext.Movies.Add(new Movie 
-            { 
+            var humans = dbContext.Races.Where(x => x.Name == "Humans").FirstOrDefault();
+            var machines = dbContext.Races.Where(x => x.Name == "Machines").FirstOrDefault();
+            var programs = dbContext.Races.Where(x => x.Name == "Programs").FirstOrDefault();
+
+            var firstMovie = new Movie
+            {
                 Name = "The Matrix",
                 ImageUrl = "https://thematrixapi.com/images/The_Matrix_1_Poster.jpg",
                 MovieNumber = 1,
@@ -26,11 +31,14 @@ namespace TheMatrixAPI.Data.Seeding
                 ReleaseDate = new DateTime(1999, 03, 31),
                 Country = "United States",
                 Language = "English",
-                Budget = 63-000-000.00M,
-                BoxOffice = 465-000-000.30M
-            });
+                Budget = 63 - 000 - 000.00M,
+                BoxOffice = 465 - 000 - 000.30M
+            };
 
-            dbContext.Movies.Add(new Movie
+            firstMovie.Races = new List<Race> { humans, programs};
+            dbContext.Movies.Add(firstMovie);
+
+            var secondMovie = new Movie
             {
                 Name = "The Matrix Reloaded",
                 ImageUrl = "https://thematrixapi.com/images/The_Matrix_2_Poster.jpg",
@@ -42,11 +50,14 @@ namespace TheMatrixAPI.Data.Seeding
                 ReleaseDate = new DateTime(2003, 05, 15),
                 Country = "United States",
                 Language = "English",
-                Budget = 63-000-000.00M,
-                BoxOffice = 739-000-000.04M
-            });
+                Budget = 63 - 000 - 000.00M,
+                BoxOffice = 739 - 000 - 000.04M
+            };
 
-            dbContext.Movies.Add(new Movie
+            secondMovie.Races = new List<Race> { humans, programs, machines };
+            dbContext.Movies.Add(secondMovie);
+
+            var thirdMovie = new Movie
             {
                 Name = "The Matrix Revolutions",
                 ImageUrl = "https://thematrixapi.com/images/The_Matrix_3_Poster.jpg",
@@ -58,9 +69,12 @@ namespace TheMatrixAPI.Data.Seeding
                 ReleaseDate = new DateTime(2003, 11, 05),
                 Country = "United States",
                 Language = "English",
-                Budget = 63-000-000.00M,
-                BoxOffice = 427-000-000.03M
-            });
+                Budget = 63 - 000 - 000.00M,
+                BoxOffice = 427 - 000 - 000.03M
+            };
+
+            thirdMovie.Races = new List<Race> { humans, programs, machines };
+            dbContext.Movies.Add(thirdMovie);
 
             dbContext.Movies.Add(new Movie
             {

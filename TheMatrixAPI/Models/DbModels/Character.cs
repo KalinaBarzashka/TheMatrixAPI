@@ -5,6 +5,11 @@ namespace TheMatrixAPI.Models.DbModels
 {
     public class Character
     {
+        public Character()
+        {
+            this.Quotes = new HashSet<Quote>();
+        }
+
         [Key]
         public int Id { get; set; }
 

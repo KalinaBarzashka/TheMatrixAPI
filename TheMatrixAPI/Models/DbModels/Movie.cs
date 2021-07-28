@@ -7,6 +7,12 @@ namespace TheMatrixAPI.Models.DbModels
 {
     public class Movie
     {
+        public Movie()
+        {
+            this.Actors = new HashSet<Actor>();
+            this.Races = new HashSet<Race>();
+        }
+
         [Key]
         public int Id { get; set; }
 
