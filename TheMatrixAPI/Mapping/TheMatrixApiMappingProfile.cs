@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TheMatrixAPI.Models.Actor;
 using TheMatrixAPI.Models.DbModels;
 using TheMatrixAPI.Models.DTO;
 
@@ -24,6 +25,15 @@ namespace TheMatrixAPI.Mapping
                     dto => dto.Url,
                     opt => opt.MapFrom(src => "https://thematrixapi.com/api/movies/" + src.Id));
             CreateMap<Character, ActorCharacterDTO>()
+                .ForMember(
+                    dto => dto.Name,
+                    opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<Actor, EditActorViewModel>();
+            CreateMap<Character, ActorCharacterViewModel>()
+                .ForMember(
+                    dto => dto.Id,
+                    opt => opt.MapFrom(src => src.Id))
                 .ForMember(
                     dto => dto.Name,
                     opt => opt.MapFrom(src => src.Name));
