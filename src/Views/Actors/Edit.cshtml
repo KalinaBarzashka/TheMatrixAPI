@@ -1,0 +1,56 @@
+﻿@model TheMatrixAPI.Models.Actor.EditActorViewModel
+
+@{
+    var characters = new List<SelectListItem>();
+    characters.Add(new SelectListItem()
+    {
+        Text = "Select character",
+        Value = "0"
+    });
+    characters.AddRange((this.ViewData["Characters"] as IEnumerable<TheMatrixAPI.Models.DbModels.Character>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+}
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post" asp-controller="actors" asp-action="edit">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" type="text" value="@Model.FirstName" class="form-control" placeholder="The Matrix 1,2,3...">
+    </div>
+    <div class="form-group">
+        <label asp-for="MiddleName"></label>
+        <input asp-for="MiddleName" type="text" value="@Model.MiddleName" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" type="text" value="@Model.LastName" class="form-control">
+    </div>
+    <br />
+    <div class="form-group d-flex align-items-center">
+        <label asp-for="Character.Id">Character Name</label>
+        <select asp-for="Character.Id" asp-items="characters" class="form-control"></select>
+        <span asp-validation-for="Character.Id" class="text-danger"></span>
+    </div>
+    <br />
+    @foreach (var movie in Model.Movies)
+    {
+        <div class="form-group">
+            <label asp-for="@movie.Name"></label>
+            <input asp-for="@movie.Name" type="text" value="@movie.Name" class="form-control">
+        </div>
+    }
+    <br />
+
+    <h4>Movies</h4>
+    @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>))
+    {
+        <div class="form-group">
+            <label>@movie.Name</label>
+            <input type="checkbox" name="@movie.Name" checked="@movie.IsChecked" class="form-control">
+        </div>
+    }
+
+    <input type="hidden" value="@Model.Id" />
+    <input type="submit" value="Edit" class="btn btn-primary" />
+</form>
+

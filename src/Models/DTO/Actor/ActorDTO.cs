@@ -26,9 +26,4 @@ namespace TheMatrixAPI.Models.DTO
 
         public List<ActorMovieDTO> Movies { get; set; }
     }
-
-    public class ActorCharacterDTO
-    {
-        public string Name { get; set; }
-    }
 }

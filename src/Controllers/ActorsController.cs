@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using TheMatrixAPI.Data;
 using TheMatrixAPI.Models;
@@ -68,11 +69,29 @@ namespace TheMatrixAPI.Controllers
                 return this.View("Errors", errorModel);
             }
 
+            var allMovies = this.dbContext.Movies.ToList();
+            var movies = new List<CheckedMoviesViewModel>();
+
+            foreach (var movie in allMovies)
+            {
+                movies.Add(new CheckedMoviesViewModel
+                {
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    IsChecked = actor.Movies.Any(x => x.Id == movie.Id) ? true : false
+                });;
+            }
+
+            this.ViewData["Movies"] = movies;
+
+            var characters = this.dbContext.Characters.ToList();
+            this.ViewData["Characters"] = characters;
+
             return this.View(actor);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, EditActorViewModel actorData)
+        public IActionResult Edit(int id, EditActorViewModel actorData, CheckedMoviesViewModel[] movies)
         {
             var originalActor = dbContext.Actors.Where(x => x.Id == id).FirstOrDefault();
             if (originalActor == null)

@@ -37,6 +37,13 @@ namespace TheMatrixAPI.Mapping
                 .ForMember(
                     dto => dto.Name,
                     opt => opt.MapFrom(src => src.Name));
+            CreateMap<Movie, ActorMovieViewModel>()
+                .ForMember(
+                    dto => dto.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(
+                    dto => dto.Name,
+                    opt => opt.MapFrom(src => src.Name));
         }
     }
 }

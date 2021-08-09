@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheMatrixAPI.Models.Actor
 {
@@ -19,12 +20,23 @@ namespace TheMatrixAPI.Models.Actor
         public string LastName { get; set; }
 
         public ActorCharacterViewModel Character { get; set; }
+
+        public List<ActorMovieViewModel> Movies { get; set; }
+    }
+
+    public class ActorMovieViewModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 
     public class ActorCharacterViewModel
     {
+        [Display(Name = "Character Id")]
         public int Id { get; set; }
 
+        [Display(Name = "Character Name")]
         public string Name { get; set; }
     }
 }
