@@ -31,6 +31,9 @@ namespace TheMatrixAPI.Data
                 .HasOne(c => c.Character)
                 .WithOne(a => a.Actor)
                 .HasForeignKey<Character>(x => x.ActorId);
+
+
+
         }
     }
 }

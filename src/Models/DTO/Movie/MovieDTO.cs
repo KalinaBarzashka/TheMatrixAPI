@@ -13,7 +13,7 @@ namespace TheMatrixAPI.Models.DTO
 
         public int MovieNumber { get; set; }
 
-        public decimal MovieLength { get; set; }
+        public int? MovieLength { get; set; }
 
         public string Director { get; set; }
 

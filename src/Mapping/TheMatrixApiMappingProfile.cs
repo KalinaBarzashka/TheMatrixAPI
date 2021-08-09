@@ -2,6 +2,7 @@
 using TheMatrixAPI.Models.Actor;
 using TheMatrixAPI.Models.DbModels;
 using TheMatrixAPI.Models.DTO;
+using TheMatrixAPI.Models.Movie;
 
 namespace TheMatrixAPI.Mapping
 {
@@ -44,6 +45,13 @@ namespace TheMatrixAPI.Mapping
                 .ForMember(
                     dto => dto.Name,
                     opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<Movie, EditMovieViewModel>()
+                .ForMember(
+                    dto => dto.ReleaseDate,
+                    opt => opt.MapFrom(src => src.ReleaseDate == null ? null : src.ReleaseDate.Value.ToString("dd/MM/yyyy")));
+
+            CreateMap<Movie, Movie>();
         }
     }
 }

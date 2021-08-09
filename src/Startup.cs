@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TheMatrixAPI.Data;
 using TheMatrixAPI.Data.Seeding;
+using TheMatrixAPI.Services;
 
 namespace TheMatrixAPI
 {
@@ -24,6 +25,8 @@ namespace TheMatrixAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("TheMatrixAPI")));
+
+            services.AddTransient<IMoviesService, MoviesService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

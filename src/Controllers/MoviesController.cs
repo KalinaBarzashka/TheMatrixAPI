@@ -1,53 +1,40 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using TheMatrixAPI.Data;
-using TheMatrixAPI.Models;
-using TheMatrixAPI.Models.DbModels;
-using TheMatrixAPI.Models.DTO;
-using TheMatrixAPI.Models.Movie;
-
-namespace TheMatrixAPI.Controllers
+﻿namespace TheMatrixAPI.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using TheMatrixAPI.Models;
+    using TheMatrixAPI.Models.DbModels;
+    using TheMatrixAPI.Models.DTO;
+    using TheMatrixAPI.Models.Movie;
+    using TheMatrixAPI.Services;
+
     public class MoviesController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper;
+        private readonly IMoviesService moviesService;
 
-        public MoviesController(ApplicationDbContext dbContext, IMapper mapper)
+        public MoviesController(IMoviesService moviesService)
         {
-            this.dbContext = dbContext;
-            this.mapper = mapper;
+            this.moviesService = moviesService;
         }
 
         [Route("/movies")]
         public IActionResult GetAll()
         {
-            var movies = this.dbContext.Movies.ToList();
-
+            var movies = this.moviesService.GetAll<MovieDTO>();
             return this.View(movies);
         }
 
         [Route("/api/movies")]
-        public IActionResult GetAllJson()
+        public IActionResult GetAllInJSON()
         {
-            var movies = dbContext.Movies
-                .ProjectTo<MovieDTO>(this.mapper.ConfigurationProvider)
-                .ToList();
-
+            var movies = this.moviesService.GetAll<MovieDTO>();
             return this.Json(movies);
         }
 
         [Route("/api/movies/{id}")]
-        public IActionResult GetMovieById(int id)
+        public IActionResult GetOneByIdInJSON(int id)
         {
-            var movie = dbContext.Movies
-                .Where(x => x.Id == id)
-                .ProjectTo<MovieDTO>(this.mapper.ConfigurationProvider)
-                .FirstOrDefault();
-
+            var movie = this.moviesService.GetById<MovieDTO>(id);
             return this.Json(movie);
         }
 
@@ -64,34 +51,27 @@ namespace TheMatrixAPI.Controllers
                 return this.View(movieData);
             }
 
-            var movie = new Movie
+            try
             {
-                Name = movieData.Name,
-                MovieNumber = movieData.MovieNumber,
-                MovieLength = movieData.MovieLength,
-                Director = movieData.Director,
-                Producer = movieData.Producer,
-                DistributedBy = movieData.DistributedBy,
-                ReleaseDate = movieData.ReleaseDate == null ? null : DateTime.Parse(movieData.ReleaseDate),
-                Country = movieData.Country,
-                Language = movieData.Language,
-                Budget = movieData.Budget,
-                BoxOffice = movieData.BoxOffice,
-            };
+                this.moviesService.Add(movieData);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
+            }
 
-            this.dbContext.Add(movie);
-            this.dbContext.SaveChanges();
-
-            return Redirect("/");
+            return Redirect("/movies");
         }
 
         public IActionResult Edit(int id)
         {
-            var movie = this.dbContext.Movies
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
+            var movieExists = this.moviesService.DoesMovieExist(id);
 
-            if (id == 0 || movie == null)
+            if (!movieExists)
             {
                 var errorModel = new CustomErrorViewModel
                 {
@@ -100,30 +80,16 @@ namespace TheMatrixAPI.Controllers
                 return this.View("Errors", errorModel);
             }
 
-            var data = new EditMovieViewModel
-            {
-                Id = movie.Id,
-                Name = movie.Name,
-                MovieNumber = movie.MovieNumber,
-                MovieLength = movie.MovieLength,
-                Director = movie.Director,
-                Producer = movie.Producer,
-                DistributedBy = movie.DistributedBy,
-                ReleaseDate = movie.ReleaseDate == null ? null : movie.ReleaseDate?.ToString("dd/MM/yyyy"),
-                Country = movie.Country,
-                Language = movie.Language,
-                Budget = movie.Budget,
-                BoxOffice = movie.BoxOffice,
-            };
-
-            return this.View(data);
+            var movie = this.moviesService.GetById<EditMovieViewModel>(id);
+            return this.View(movie);
         }
 
         [HttpPost]
         public IActionResult Edit(int id, EditMovieViewModel movieData)
         {
-            var originalMovie = dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
-            if (originalMovie == null)
+            var movieExists = this.moviesService.DoesMovieExist(id);
+
+            if (!movieExists)
             {
                 var errorModel = new CustomErrorViewModel
                 {
@@ -131,36 +97,33 @@ namespace TheMatrixAPI.Controllers
                 };
                 return this.View("/Errors", errorModel);
             }
-            
+
             if (!ModelState.IsValid)
             {
                 return this.View(movieData);
             }
 
-            originalMovie.Name = movieData.Name;
-            originalMovie.MovieNumber = movieData.MovieNumber;
-            originalMovie.MovieLength = movieData.MovieLength;
-            originalMovie.Director = movieData.Director;
-            originalMovie.Producer = movieData.Producer;
-            originalMovie.DistributedBy = movieData.DistributedBy;
-            originalMovie.ReleaseDate = movieData.ReleaseDate == null ? null : DateTime.Parse(movieData.ReleaseDate);
-            originalMovie.Country = movieData.Country;
-            originalMovie.Language = movieData.Language;
-            originalMovie.Budget = movieData.Budget;
-            originalMovie.BoxOffice = movieData.BoxOffice;
+            try
+            {
+                this.moviesService.Edit(movieData, id);
+            }
+            catch(Exception ex)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
+            }
 
-            dbContext.SaveChanges();
-
-            return Redirect("/");
+            return Redirect("/movies");
         }
 
         public IActionResult Delete(int id)
         {
-            var movie = this.dbContext.Movies
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
+            var movieExists = this.moviesService.DoesMovieExist(id);
 
-            if (id == 0 || movie == null)
+            if (!movieExists)
             {
                 var errorModel = new CustomErrorViewModel
                 {
@@ -169,6 +132,7 @@ namespace TheMatrixAPI.Controllers
                 return this.View("Errors", errorModel);
             }
 
+            var movie = this.moviesService.GetById<Movie>(id);
             return this.View(movie);
         }
 
@@ -176,42 +140,20 @@ namespace TheMatrixAPI.Controllers
         [ActionName("Delete")]
         public IActionResult PostDelete(int id)
         {
-            var movie = this.dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
-            this.dbContext.Movies.Remove(movie);
-            this.dbContext.SaveChanges();
+            try
+            {
+                this.moviesService.DeleteById(id);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
+            }
 
-            return Redirect("/");
+            return Redirect("/movies");
         }
-
-            //var moviesTest = dbContext.Movies
-            //    .Select(x => new MovieDTO
-            //    {
-            //        Id = x.Id,
-            //        Name = x.Name,
-            //        MovieNumber = x.MovieNumber,
-            //        MovieLength = x.MovieLength,
-            //        Director = x.Director,
-            //        Producer = x.Producer,
-            //        DistributedBy = x.DistributedBy,
-            //        ReleaseDate = x.ReleaseDate,
-            //        Country = x.Country,
-            //        Language = x.Language,
-            //        Budget = x.Budget,
-            //        BoxOffice = x.BoxOffice,
-            //        Actors = x.Actors
-            //            .Select(a => new MovieActorDTO
-            //            {
-            //                Id = a.Id,
-            //                FullName = a.FullName,
-            //                Url = "https://thematrixapi.com/api/actors/" + a.Id
-            //            }).ToList(),
-            //        Races = x.Races
-            //            .Select(r => new MovieRaceDTO
-            //            {
-            //                Id = r.Id,
-            //                Name = r.Name,
-            //                Url = "https://thematrixapi.com/api/races/" + r.Id
-            //            }).ToList()
-            //    }).ToList();
-        }
+    }
 }
