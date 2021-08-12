@@ -66,6 +66,7 @@
                 Language = movieData.Language,
                 Budget = movieData.Budget,
                 BoxOffice = movieData.BoxOffice,
+                ImageUrl = movieData.ImageUrl
             };
 
             this.dbContext.Add(movie);
