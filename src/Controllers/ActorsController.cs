@@ -22,7 +22,7 @@ namespace TheMatrixAPI.Controllers
         }
 
         [Route("/actors")]
-        public IActionResult GetAll()
+        public IActionResult Index()
         {
             var actors = this.dbContext.Actors.ProjectTo<ActorDTO>(this.mapper.ConfigurationProvider).ToList().OrderBy(x => x.FullName);
             var movies = this.dbContext.Movies.ToList();

@@ -14,7 +14,7 @@
 
         public void Add(AddMovieViewModel movieData);
 
-        public void Edit(EditMovieViewModel movieData, int id);
+        public void Edit(int id, EditMovieViewModel movieData);
 
         public void DeleteById(int id);
     }

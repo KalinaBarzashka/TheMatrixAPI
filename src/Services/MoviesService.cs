@@ -73,7 +73,7 @@
             this.dbContext.SaveChanges();
         }
 
-        public void Edit(EditMovieViewModel movieData, int id)
+        public void Edit(int id, EditMovieViewModel movieData)
         {
             var originalMovie = this.dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
 
@@ -88,8 +88,9 @@
             originalMovie.Language = movieData.Language;
             originalMovie.Budget = movieData.Budget;
             originalMovie.BoxOffice = movieData.BoxOffice;
+            originalMovie.ImageUrl = movieData.ImageUrl;
 
-            dbContext.SaveChanges();
+            this.dbContext.SaveChanges();
         }
 
         public void DeleteById(int id)

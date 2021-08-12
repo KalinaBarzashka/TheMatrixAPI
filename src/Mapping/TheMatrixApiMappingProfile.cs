@@ -13,7 +13,7 @@ namespace TheMatrixAPI.Mapping
             CreateMap<Movie, MovieDTO>();
             CreateMap<Actor, MovieActorDTO>()
                 .ForMember(
-                    dto => dto.Url, 
+                    dto => dto.Url,
                     opt => opt.MapFrom(src => "https://thematrixapi.com/api/actors/" + src.Id));
             CreateMap<Race, MovieRaceDTO>()
                 .ForMember(
@@ -47,6 +47,10 @@ namespace TheMatrixAPI.Mapping
                     opt => opt.MapFrom(src => src.Name));
 
             CreateMap<Movie, EditMovieViewModel>()
+                .ForMember(
+                    dto => dto.ReleaseDate,
+                    opt => opt.MapFrom(src => src.ReleaseDate == null ? null : src.ReleaseDate.Value.ToString("dd/MM/yyyy")));
+            CreateMap<Movie, DeleteMovieViewModel>()
                 .ForMember(
                     dto => dto.ReleaseDate,
                     opt => opt.MapFrom(src => src.ReleaseDate == null ? null : src.ReleaseDate.Value.ToString("dd/MM/yyyy")));

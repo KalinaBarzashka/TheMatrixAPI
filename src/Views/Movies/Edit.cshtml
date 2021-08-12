@@ -2,7 +2,7 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<form method="post" asp-controller="movies" asp-action="edit">
+<form method="post" asp-controller="Movies" asp-action="Edit">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" type="text" value="@Model.Name" class="form-control" placeholder="The Matrix 1,2,3...">
@@ -47,7 +47,11 @@
         <label asp-for="BoxOffice"></label>
         <input asp-for="BoxOffice" type="text" value="@Model.BoxOffice" class="form-control">
     </div>
-    <input type="hidden" value="@Model.Id"/>
+    <div class="form-group">
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" type="text" value="@Model.ImageUrl" class="form-control">
+    </div>
+    <input type="hidden" value="@Model.Id" />
     <input type="submit" value="Edit" class="btn btn-primary" />
 </form>
 

@@ -13,14 +13,28 @@
                     <img class="movie-img" src="/images/@imageUrl" alt="Card image cap">
                 }
             </div>
-            
+
             <div class="movie-body">
                 <h5 class="card-title">@movie.Name</h5>
-                <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
-                <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-primary">Delete</a>
+                <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
+                <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger">Delete</a>
             </div>
         </div>
     }
+
+    <!-- If Authorized as Admin (to be implemented) -->
+    <div class="movie-item">
+        <div class="movie-img-container">
+            <img class="movie-img" src="/images/Empty.png" alt="Add New Movie">
+        </div>
+
+        <div class="movie-body">
+            <h5 class="card-title">Add New Movie</h5>
+            <a asp-controller="Movies" asp-action="Add" class="btn btn-primary">Add New Movie</a>
+        </div>
+    </div>
+    <!-- End-If -->
+
 </div>
 
 <style>

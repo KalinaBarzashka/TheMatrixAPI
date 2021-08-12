@@ -30,9 +30,10 @@ namespace TheMatrixAPI
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => {
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
                 options.Password.RequireDigit = false;
-                options.Password.RequireLowercase= false;
+                options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 0;
@@ -41,6 +42,11 @@ namespace TheMatrixAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+
+            services.AddRouting(opts =>
+            {
+                opts.LowercaseUrls = true;
+            });
 
             services.AddAutoMapper(typeof(Startup));
         }

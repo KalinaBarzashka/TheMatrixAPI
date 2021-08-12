@@ -3,24 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheMatrixAPI.Models.Movie
 {
-    public class EditMovieViewModel
+    public class DeleteMovieViewModel
     {
         [Required]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        [Display(Name="Movie Number")]
+        [Display(Name = "Movie Number")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Movie Number must be grater than 0")]
-        public int MovieNumber { get; set; }
+        public int? MovieNumber { get; set; }
 
-        [Required]
         [Display(Name = "Movie Length")]
         [Range(1, Int32.MaxValue, ErrorMessage = "Movie length must be at least 1 minute.")]
-        public int MovieLength { get; set; }
+        public int? MovieLength { get; set; }
 
         [MaxLength(100)]
         public string Director { get; set; }

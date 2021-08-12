@@ -3,10 +3,10 @@
     using Microsoft.AspNetCore.Mvc;
     using System;
     using TheMatrixAPI.Models;
-    using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.DTO;
     using TheMatrixAPI.Models.Movie;
     using TheMatrixAPI.Services;
+    using System.Linq;
 
     public class MoviesController : Controller
     {
@@ -18,9 +18,11 @@
         }
 
         [Route("/movies")]
-        public IActionResult GetAll()
+        public IActionResult Index()
         {
-            var movies = this.moviesService.GetAll<MovieDTO>();
+            var movies = this.moviesService
+                .GetAll<MovieDTO>()
+                .OrderBy(x => x.MovieNumber);
             return this.View(movies);
         }
 
@@ -105,7 +107,7 @@
 
             try
             {
-                this.moviesService.Edit(movieData, id);
+                this.moviesService.Edit(id, movieData);
             }
             catch(Exception ex)
             {
@@ -119,6 +121,7 @@
             return Redirect("/movies");
         }
 
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             var movieExists = this.moviesService.DoesMovieExist(id);
@@ -132,7 +135,7 @@
                 return this.View("Errors", errorModel);
             }
 
-            var movie = this.moviesService.GetById<Movie>(id);
+            var movie = this.moviesService.GetById<DeleteMovieViewModel>(id);
             return this.View(movie);
         }
 
@@ -140,6 +143,17 @@
         [ActionName("Delete")]
         public IActionResult PostDelete(int id)
         {
+            var movieExists = this.moviesService.DoesMovieExist(id);
+
+            if (!movieExists)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Movie not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
             try
             {
                 this.moviesService.DeleteById(id);
