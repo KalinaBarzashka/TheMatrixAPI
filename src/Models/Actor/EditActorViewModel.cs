@@ -22,6 +22,8 @@ namespace TheMatrixAPI.Models.Actor
         public ActorCharacterViewModel Character { get; set; }
 
         public List<ActorMovieViewModel> Movies { get; set; }
+
+        public int[] CheckedMovies { get; set; }
     }
 
     public class ActorMovieViewModel

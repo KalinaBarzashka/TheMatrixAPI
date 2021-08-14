@@ -27,6 +27,8 @@ namespace TheMatrixAPI
                     Configuration.GetConnectionString("TheMatrixAPI")));
 
             services.AddTransient<IMoviesService, MoviesService>();
+            services.AddTransient<IActorsService, ActorsService>();
+            services.AddTransient<ICharactersService, CharactersService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

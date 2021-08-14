@@ -7,7 +7,10 @@
         Text = "Select character",
         Value = "0"
     });
-    characters.AddRange((this.ViewData["Characters"] as IEnumerable<TheMatrixAPI.Models.DbModels.Character>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+    characters.AddRange((this.ViewData["Characters"] as IEnumerable<TheMatrixAPI.Models.DTO.Character.CharacterDTO>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+
+    var checkedMovies = ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>;
+    var movies = Model.Movies;
 }
 
 <div asp-validation-summary="All" class="text-danger"></div>
@@ -32,21 +35,13 @@
         <span asp-validation-for="Character.Id" class="text-danger"></span>
     </div>
     <br />
-    @foreach (var movie in Model.Movies)
-    {
-        <div class="form-group">
-            <label asp-for="@movie.Name"></label>
-            <input asp-for="@movie.Name" type="text" value="@movie.Name" class="form-control">
-        </div>
-    }
-    <br />
 
     <h4>Movies</h4>
-    @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>))
+    @foreach (var movie in checkedMovies)
     {
         <div class="form-group">
             <label>@movie.Name</label>
-            <input type="checkbox" name="@movie.Name" checked="@movie.IsChecked" class="form-control">
+            <input type="checkbox" name="checkedMovies" @(movie.IsChecked == true ? "checked" : null) value="@movie.Id" class="form-control">
         </div>
     }
 

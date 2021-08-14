@@ -1,11 +1,12 @@
-﻿using AutoMapper;
-using TheMatrixAPI.Models.Actor;
-using TheMatrixAPI.Models.DbModels;
-using TheMatrixAPI.Models.DTO;
-using TheMatrixAPI.Models.Movie;
-
-namespace TheMatrixAPI.Mapping
+﻿namespace TheMatrixAPI.Mapping
 {
+    using AutoMapper;
+    using TheMatrixAPI.Models.Actor;
+    using TheMatrixAPI.Models.DbModels;
+    using TheMatrixAPI.Models.DTO;
+    using TheMatrixAPI.Models.DTO.Character;
+    using TheMatrixAPI.Models.Movie;
+
     public class TheMatrixApiMappingProfile : Profile
     {
         public TheMatrixApiMappingProfile()
@@ -56,6 +57,10 @@ namespace TheMatrixAPI.Mapping
                     opt => opt.MapFrom(src => src.ReleaseDate == null ? null : src.ReleaseDate.Value.ToString("dd/MM/yyyy")));
 
             CreateMap<Movie, Movie>();
+
+            CreateMap<Character, CharacterDTO>();
+
+            CreateMap<Actor, DeleteActorViewModel>();
         }
     }
 }

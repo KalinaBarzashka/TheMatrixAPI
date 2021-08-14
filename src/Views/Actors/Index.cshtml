@@ -6,7 +6,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Character</th>
-            @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DbModels.Movie>))
+            @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DTO.ActorMovieDTO>))
             {
                 <th>@movie.Name</th>
             }
@@ -20,7 +20,7 @@
                 <td>@actor.FirstName</td>
                 <td>@actor.LastName</td>
                 <td>@actor.Character?.Name</td>
-                @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DbModels.Movie>))
+                @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DTO.ActorMovieDTO>))
                 {
                     <td>
                         @if (actor.Movies.Any(x => x.Id == movie.Id))
@@ -39,6 +39,18 @@
                 </td>
             </tr>
         }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            @foreach (var movie in (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.DTO.ActorMovieDTO>))
+            {
+                <td></td>
+            }
+            <td id="actor-action">
+                <a asp-action="Add" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i></a>
+            </td>
+        </tr>
     </tbody>
 </table>
 
