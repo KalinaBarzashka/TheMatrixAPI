@@ -101,7 +101,7 @@
                     Id = movie.Id,
                     Name = movie.Name,
                     IsChecked = actor.Movies.Any(x => x.Id == movie.Id) ? true : false
-                });;
+                }); ;
             }
 
             this.ViewData["Movies"] = movies;
@@ -124,9 +124,34 @@
                 };
                 return this.View("/Errors", errorModel);
             }
-        
+
+            if (!this.charactersService.IsCharacterAvailable(actorData.Id, actorData.Character.Id))
+            {
+                this.ModelState.AddModelError(nameof(actorData.Character.Id), "Selected character is already in use!");
+            }
+
             if (!ModelState.IsValid)
             {
+                var characters = this.charactersService.GetAll<CharacterDTO>();
+                this.ViewData["Characters"] = characters;
+
+                actorData.Movies = this.moviesService.GetAllMoviesForSpecifiedActor(actorData.Id);
+
+                var allMovies = this.moviesService.GetAll<ActorMovieDTO>();
+                var movies = new List<CheckedMoviesViewModel>();
+
+                foreach (var movie in allMovies)
+                {
+                    movies.Add(new CheckedMoviesViewModel
+                    {
+                        Id = movie.Id,
+                        Name = movie.Name,
+                        IsChecked = actorData.Movies.Any(x => x.Id == movie.Id) ? true : false
+                    }); ;
+                }
+
+                this.ViewData["Movies"] = movies;
+
                 return this.View(actorData);
             }
 

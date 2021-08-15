@@ -24,5 +24,27 @@
                 .ToList();
             return charactres;
         }
+
+        public T GetById<T>(int id)
+        {
+            var movie = dbContext.Characters
+               .Where(x => x.Id == id)
+               .ProjectTo<T>(this.mapper.ConfigurationProvider)
+               .FirstOrDefault();
+
+            return movie;
+        }
+
+        public bool IsCharacterAvailable(int actorId, int characterId)
+        {
+            var character = this.dbContext.Characters.Where(x => x.Id == characterId && (x.ActorId == null || x.ActorId == actorId)).FirstOrDefault();
+            
+            if(character == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -9,6 +9,7 @@
     using TheMatrixAPI.Models.Movie;
     using System;
     using System.Globalization;
+    using TheMatrixAPI.Models.Actor;
 
     public class MoviesService : IMoviesService
     {
@@ -49,6 +50,14 @@
                .FirstOrDefault();
 
             return movie;
+        }
+
+        public List<ActorMovieViewModel> GetAllMoviesForSpecifiedActor(int actorId)
+        {
+            return dbContext.Movies
+                .Where(x => x.Actors.Any(x => x.Id == actorId))
+                .ProjectTo<ActorMovieViewModel>(this.mapper.ConfigurationProvider)
+                .ToList();
         }
 
         public void Add(AddMovieViewModel movieData)

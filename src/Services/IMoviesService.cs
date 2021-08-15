@@ -1,6 +1,7 @@
 ﻿namespace TheMatrixAPI.Services
 {
     using System.Collections.Generic;
+    using TheMatrixAPI.Models.Actor;
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.Movie;
 
@@ -11,6 +12,8 @@
         public IEnumerable<T> GetAll<T>();
 
         public T GetById<T>(int id);
+
+        public List<ActorMovieViewModel> GetAllMoviesForSpecifiedActor(int actorId);
 
         public void Add(AddMovieViewModel movieData);
 

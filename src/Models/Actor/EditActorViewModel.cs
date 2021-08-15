@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TheMatrixAPI.Models.Actor
@@ -18,7 +19,8 @@ namespace TheMatrixAPI.Models.Actor
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
-
+        
+        [Required]
         public ActorCharacterViewModel Character { get; set; }
 
         public List<ActorMovieViewModel> Movies { get; set; }
@@ -36,6 +38,8 @@ namespace TheMatrixAPI.Models.Actor
     public class ActorCharacterViewModel
     {
         [Display(Name = "Character Id")]
+        [Required]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Please select a character!")]
         public int Id { get; set; }
 
         [Display(Name = "Character Name")]

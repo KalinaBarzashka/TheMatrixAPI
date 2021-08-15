@@ -71,13 +71,19 @@
             originalActor.MiddleName = actorData.MiddleName;
             originalActor.LastName = actorData.LastName;
             originalActor.CharacterId = actorData.Character.Id;
+
+            var character = this.dbContext.Characters.Where(x => x.Id == actorData.Character.Id).FirstOrDefault();
+            character.ActorId = id;
             
             var movies = new List<Movie>();
-            foreach (var movieId in actorData.CheckedMovies)
+            if (actorData.CheckedMovies != null)
             {
-                var dbMovie = this.dbContext.Movies.Where(x => x.Id == movieId).FirstOrDefault();
-                movies.Add(dbMovie);
-            };
+                foreach (var movieId in actorData.CheckedMovies)
+                {
+                    var dbMovie = this.dbContext.Movies.Where(x => x.Id == movieId).FirstOrDefault();
+                    movies.Add(dbMovie);
+                };
+            }
 
             this.dbContext.Database.ExecuteSqlRaw($"Delete FROM ActorMovie WHERE ActorsId = {actorData.Id}");
             originalActor.Movies = movies;
