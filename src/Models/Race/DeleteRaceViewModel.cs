@@ -1,6 +1,6 @@
-﻿namespace TheMatrixAPI.Models.Movie
+﻿namespace TheMatrixAPI.Models.Race
 {
-    public class MovieRace
+    public class DeleteRaceViewModel
     {
         public int Id { get; set; }
 

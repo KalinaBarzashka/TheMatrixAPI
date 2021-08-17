@@ -5,7 +5,9 @@
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.DTO;
     using TheMatrixAPI.Models.DTO.Character;
+    using TheMatrixAPI.Models.DTO.Race;
     using TheMatrixAPI.Models.Movie;
+    using TheMatrixAPI.Models.Race;
 
     public class TheMatrixApiMappingProfile : Profile
     {
@@ -61,6 +63,12 @@
             CreateMap<Character, CharacterDTO>();
 
             CreateMap<Actor, DeleteActorViewModel>();
+
+            CreateMap<Race, RaceDTO>();
+            CreateMap<Race, EditRaceViewModel>();
+            CreateMap<Race, DeleteRaceViewModel>();
+            CreateMap<Race, RaceDetailsViewModel>();
+            CreateMap<Character, RaceCharacterDTO>();
         }
     }
 }

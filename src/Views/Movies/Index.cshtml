@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<TheMatrixAPI.Models.DTO.MovieDTO>
 
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+
 <div class="movie-container">
     @foreach (var movie in Model)
     {

@@ -24,14 +24,7 @@
 
         public bool DoesMovieExist(int id)
         {
-            var movie = this.dbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
-
-            if(id == 0 || movie == null)
-            {
-                return false;
-            }
-
-            return true;
+            return this.dbContext.Movies.Any(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAll<T>()

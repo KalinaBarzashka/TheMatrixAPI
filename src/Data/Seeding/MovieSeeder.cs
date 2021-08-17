@@ -35,7 +35,6 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 465 - 000 - 000.30M
             };
 
-            firstMovie.Races = new List<Race> { humans, programs};
             dbContext.Movies.Add(firstMovie);
 
             var secondMovie = new Movie
@@ -54,7 +53,6 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 739 - 000 - 000.04M
             };
 
-            secondMovie.Races = new List<Race> { humans, programs, machines };
             dbContext.Movies.Add(secondMovie);
 
             var thirdMovie = new Movie
@@ -73,7 +71,6 @@ namespace TheMatrixAPI.Data.Seeding
                 BoxOffice = 427 - 000 - 000.03M
             };
 
-            thirdMovie.Races = new List<Race> { humans, programs, machines };
             dbContext.Movies.Add(thirdMovie);
 
             dbContext.Movies.Add(new Movie

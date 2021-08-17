@@ -8,7 +8,6 @@ namespace TheMatrixAPI.Models.DbModels
         public Race()
         {
             this.Characters = new HashSet<Character>();
-            this.Movies = new HashSet<Movie>();
         }
 
         [Key]
@@ -19,7 +18,5 @@ namespace TheMatrixAPI.Models.DbModels
         public string Name { get; set; }
 
         public virtual ICollection<Character> Characters { get; set; }
-
-        public virtual ICollection<Movie> Movies { get; set; }
     }
 }

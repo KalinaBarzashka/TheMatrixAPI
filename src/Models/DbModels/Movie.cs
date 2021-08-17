@@ -10,7 +10,6 @@ namespace TheMatrixAPI.Models.DbModels
         public Movie()
         {
             this.Actors = new HashSet<Actor>();
-            this.Races = new HashSet<Race>();
         }
 
         [Key]
@@ -50,7 +49,5 @@ namespace TheMatrixAPI.Models.DbModels
         public decimal? BoxOffice { get; set; }
 
         public virtual ICollection<Actor> Actors { get; set; }
-
-        public virtual ICollection<Race> Races { get; set; }
     }
 }

@@ -1,0 +1,21 @@
+﻿@model TheMatrixAPI.Models.Race.EditRaceViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post" asp-controller="Races" asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" type="text" value="@Model.Name" class="form-control" />
+    </div>
+    <input type="hidden" value="@Model.Id" />
+    <input type="submit" value="Edit" class="btn btn-primary" />
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

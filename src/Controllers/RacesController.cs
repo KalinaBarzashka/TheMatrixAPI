@@ -3,40 +3,38 @@
     using Microsoft.AspNetCore.Mvc;
     using System;
     using TheMatrixAPI.Models;
-    using TheMatrixAPI.Models.DTO;
-    using TheMatrixAPI.Models.Movie;
+    using TheMatrixAPI.Models.DTO.Race;
+    using TheMatrixAPI.Models.Race;
     using TheMatrixAPI.Services;
-    using System.Linq;
 
-    public class MoviesController : Controller
+    public class RacesController : Controller
     {
-        private readonly IMoviesService moviesService;
+        private readonly IRacesService racesService;
 
-        public MoviesController(IMoviesService moviesService)
+        public RacesController(IRacesService racesService)
         {
-            this.moviesService = moviesService;
+            this.racesService = racesService;
         }
 
-        [Route("/movies")]
+        [Route("/races")]
         public IActionResult Index()
         {
-            var movies = this.moviesService
-                .GetAll<MovieDTO>()
-                .OrderBy(x => x.MovieNumber);
-            return this.View(movies);
+            var races = this.racesService.GetAll<RaceDTO>();
+
+            return this.View(races);
         }
 
-        [Route("/api/movies")]
+        [Route("/api/races")]
         public IActionResult GetAllInJSON()
         {
-            var movies = this.moviesService.GetAll<MovieDTO>();
-            return this.Json(movies);
+            var races = this.racesService.GetAll<RaceDTO>();
+            return this.Json(races);
         }
 
-        [Route("/api/movies/{id}")]
+        [Route("/api/races/{id}")]
         public IActionResult GetOneByIdInJSON(int id)
         {
-            var movie = this.moviesService.GetById<MovieDTO>(id);
+            var movie = this.racesService.GetById<RaceDTO>(id);
             return this.Json(movie);
         }
 
@@ -46,16 +44,16 @@
         }
 
         [HttpPost]
-        public IActionResult Add(AddMovieViewModel movieData)
+        public IActionResult Add(AddRaceViewModel raceData)
         {
             if (!ModelState.IsValid)
             {
-                return this.View(movieData);
+                return this.View(raceData);
             }
 
             try
             {
-                this.moviesService.Add(movieData);
+                this.racesService.Add(raceData);
             }
             catch (Exception ex)
             {
@@ -66,98 +64,49 @@
                 return this.View("Errors", errorModel);
             }
 
-            return Redirect("/movies");
+            return Redirect("/races");
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var movieExists = this.moviesService.DoesMovieExist(id);
+            var raceExists = this.racesService.DoesRaceExist(id);
 
-            if (!movieExists)
+            if (!raceExists)
             {
                 var errorModel = new CustomErrorViewModel
                 {
-                    Message = "Movie not found!"
+                    Message = "Race not found!"
                 };
                 return this.View("Errors", errorModel);
             }
 
-            var movie = this.moviesService.GetById<EditMovieViewModel>(id);
-            return this.View(movie);
+            var race = this.racesService.GetById<EditRaceViewModel>(id);
+            return this.View(race);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, EditMovieViewModel movieData)
+        public IActionResult Edit(int id, EditRaceViewModel raceData)
         {
-            var movieExists = this.moviesService.DoesMovieExist(id);
+            var raceExists = this.racesService.DoesRaceExist(id);
 
-            if (!movieExists)
+            if (!raceExists)
             {
                 var errorModel = new CustomErrorViewModel
                 {
-                    Message = "Movie not found!"
+                    Message = "Race not found!"
                 };
                 return this.View("/Errors", errorModel);
             }
 
             if (!ModelState.IsValid)
             {
-                return this.View(movieData);
+                return this.View(raceData);
             }
 
             try
             {
-                this.moviesService.Edit(id, movieData);
-            }
-            catch(Exception ex)
-            {
-                var errorModel = new CustomErrorViewModel
-                {
-                    Message = ex.Message
-                };
-                return this.View("Errors", errorModel);
-            }
-
-            return Redirect("/movies");
-        }
-
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var movieExists = this.moviesService.DoesMovieExist(id);
-
-            if (!movieExists)
-            {
-                var errorModel = new CustomErrorViewModel
-                {
-                    Message = "Movie not found!"
-                };
-                return this.View("Errors", errorModel);
-            }
-
-            var movie = this.moviesService.GetById<DeleteMovieViewModel>(id);
-            return this.View(movie);
-        }
-
-        [HttpPost]
-        [ActionName("Delete")]
-        public IActionResult PostDelete(int id)
-        {
-            var movieExists = this.moviesService.DoesMovieExist(id);
-
-            if (!movieExists)
-            {
-                var errorModel = new CustomErrorViewModel
-                {
-                    Message = "Movie not found!"
-                };
-                return this.View("Errors", errorModel);
-            }
-
-            try
-            {
-                this.moviesService.DeleteById(id);
+                this.racesService.Edit(id, raceData);
             }
             catch (Exception ex)
             {
@@ -168,7 +117,68 @@
                 return this.View("Errors", errorModel);
             }
 
-            return Redirect("/movies");
+            return Redirect("/races");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var raceExists = this.racesService.DoesRaceExist(id);
+
+            if (!raceExists)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Race not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            var race = this.racesService.GetById<DeleteRaceViewModel>(id);
+            return this.View(race);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult PostDelete(int id)
+        {
+            var raceExists = this.racesService.DoesRaceExist(id);
+            var raceIsInUse = this.racesService.IsRaceInUse(id);
+
+            if (!raceExists)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Race not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            if (!raceIsInUse)
+            {
+                this.ModelState.AddModelError(nameof(DeleteRaceViewModel.Name), "The race is already in use!");
+            }
+
+            try
+            {
+                this.racesService.DeleteById(id);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            return Redirect("/races");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var raceDetails = this.racesService.GetRaceDetailsById<RaceDetailsViewModel>(id);
+            return this.View(raceDetails);
         }
     }
 }

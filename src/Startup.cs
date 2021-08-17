@@ -29,6 +29,7 @@ namespace TheMatrixAPI
             services.AddTransient<IMoviesService, MoviesService>();
             services.AddTransient<IActorsService, ActorsService>();
             services.AddTransient<ICharactersService, CharactersService>();
+            services.AddTransient<IRacesService, RacesService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
