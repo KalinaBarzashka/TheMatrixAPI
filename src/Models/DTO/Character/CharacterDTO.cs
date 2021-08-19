@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TheMatrixAPI.Models.DTO.Character
 {
     public class CharacterDTO
+    {
+        public string Alignment { get; set; }
+
+        public List<CharactersInfo> Characters { get; set; }
+    }
+
+    public class CharactersInfo
     {
         public int Id { get; set; }
 

@@ -1,6 +1,8 @@
 ﻿namespace TheMatrixAPI.Mapping
 {
     using AutoMapper;
+    using System.Collections.Generic;
+    using System.Linq;
     using TheMatrixAPI.Models.Actor;
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.DTO;
@@ -68,7 +70,9 @@
             CreateMap<Race, EditRaceViewModel>();
             CreateMap<Race, DeleteRaceViewModel>();
             CreateMap<Race, RaceDetailsViewModel>();
+
             CreateMap<Character, RaceCharacterDTO>();
+            CreateMap<Character, CharacterGroup>();
         }
     }
 }

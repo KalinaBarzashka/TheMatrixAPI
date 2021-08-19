@@ -106,7 +106,7 @@
 
             this.ViewData["Movies"] = movies;
 
-            var characters = this.charactersService.GetAll<CharacterDTO>();
+            var characters = this.charactersService.GetAll<ActorCharacterDTO>();
             this.ViewData["Characters"] = characters;
 
             return this.View(actor);
@@ -132,7 +132,7 @@
 
             if (!ModelState.IsValid)
             {
-                var characters = this.charactersService.GetAll<CharacterDTO>();
+                var characters = this.charactersService.GetAll<ActorCharacterDTO>();
                 this.ViewData["Characters"] = characters;
 
                 actorData.Movies = this.moviesService.GetAllMoviesForSpecifiedActor(actorData.Id);

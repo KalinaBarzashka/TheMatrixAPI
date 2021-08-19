@@ -7,7 +7,7 @@
         Text = "Select character",
         Value = "0"
     });
-    characters.AddRange((this.ViewData["Characters"] as IEnumerable<TheMatrixAPI.Models.DTO.Character.CharacterDTO>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+    characters.AddRange((this.ViewData["Characters"] as IEnumerable<TheMatrixAPI.Models.DTO.ActorCharacterDTO>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
 
     var checkedMovies = (ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>) == null ? (new List<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>()) : ViewData["Movies"] as IEnumerable<TheMatrixAPI.Models.Actor.CheckedMoviesViewModel>;
     var movies = Model.Movies;
