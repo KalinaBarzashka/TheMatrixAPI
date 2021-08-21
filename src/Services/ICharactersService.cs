@@ -14,6 +14,12 @@
 
         public bool IsCharacterAvailable(int actorId, int characterId);
 
+        public bool DoesCharacterExist(int characterId);
+
         public void Add(AddCharacterViewModel characterData);
+
+        public void Edit(int characterId, EditCharacterViewModel characterData);
+
+        public void DeleteById(int characterId);
     }
 }

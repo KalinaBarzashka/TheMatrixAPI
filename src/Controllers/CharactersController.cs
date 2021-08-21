@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
-    using System.Collections.Generic;
     using TheMatrixAPI.Models;
     using TheMatrixAPI.Models.Character;
     using TheMatrixAPI.Models.DTO.Race;
@@ -60,52 +59,113 @@
             return Redirect("/characters");
         }
 
-        // GET: CharactersController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return View();
+            var characterExisis = this.charactersService.DoesCharacterExist(id);
+
+            if (!characterExisis)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Character not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            var character = this.charactersService.GetById<EditCharacterViewModel>(id);
+
+            var races = this.racesService.GetAll<RaceDTO>();
+            this.ViewData["Races"] = races;
+
+            return this.View(character);
         }
 
-        // GET: CharactersController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CharactersController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, EditCharacterViewModel characterData)
         {
+            var characterExisis = this.charactersService.DoesCharacterExist(id);
+        
+            if (!characterExisis)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Character not found!"
+                };
+                return this.View("/Errors", errorModel);
+            }
+        
+            if (!ModelState.IsValid)
+            {
+                var races = this.racesService.GetAll<RaceDTO>();
+                this.ViewData["Races"] = races;
+
+                return this.View(characterData);
+            }
+        
             try
             {
-                return RedirectToAction(nameof(Index));
+                this.charactersService.Edit(id, characterData);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
             }
+        
+            return Redirect("/characters");
         }
 
-        // GET: CharactersController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            return View();
+            var characterExists = this.charactersService.DoesCharacterExist(id);
+
+            if (!characterExists)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Character not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
+            var character = this.charactersService.GetById<DeleteCharacterViewModel>(id);
+            return this.View(character);
         }
 
-        // POST: CharactersController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [ActionName("Delete")]
+        public IActionResult PostDelete(int id)
         {
+            var characterExists = this.charactersService.DoesCharacterExist(id);
+
+            if (!characterExists)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = "Character not found!"
+                };
+                return this.View("Errors", errorModel);
+            }
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                this.charactersService.DeleteById(id);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
             }
+
+            return Redirect("/characters");
         }
     }
 }

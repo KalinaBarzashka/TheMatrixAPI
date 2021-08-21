@@ -26,7 +26,7 @@ namespace TheMatrixAPI.Models.DbModels
 
         public int? ActorId { get; set; }
 
-        public Actor Actor { get; set; }
+        public virtual Actor Actor { get; set; }
 
         public virtual ICollection<Quote> Quotes { get; set; }
     }

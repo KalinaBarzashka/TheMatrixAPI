@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TheMatrixAPI.Models.Character
@@ -16,5 +17,7 @@ namespace TheMatrixAPI.Models.Character
         [Required]
         [Range(1, Int32.MaxValue, ErrorMessage = "Please select race!")]
         public int RaceId { get; set; }
+
+        public List<string> Quotes { get; set; }
     }
 }

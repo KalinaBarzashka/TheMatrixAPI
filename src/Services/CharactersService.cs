@@ -72,6 +72,11 @@
             return true;
         }
 
+        public bool DoesCharacterExist(int id)
+        {
+            return this.dbContext.Characters.Any(x => x.Id == id);
+        }
+
         public void Add(AddCharacterViewModel characterData)
         {
             var alignment = "Neutral";
@@ -97,6 +102,90 @@
 
             this.dbContext.Characters.Add(character);
             this.dbContext.SaveChanges();
+
+            if(characterData.Quotes != null)
+            {
+                AddNewQuotes(character.Id, characterData.Quotes);
+            }
+
+            this.dbContext.SaveChanges();
+        }
+
+        public void Edit(int id, EditCharacterViewModel characterData)
+        {
+            var originalCharacter = this.dbContext.Characters.Where(x => x.Id == id).FirstOrDefault();
+
+            originalCharacter.Name = characterData.Name;
+            originalCharacter.Alignment = characterData.Alignment;
+            originalCharacter.RaceId = characterData.RaceId;
+
+            if (characterData.NewQuotes != null)
+            {
+                AddNewQuotes(id, characterData.NewQuotes);
+            }
+
+            var dbQuotes = this.dbContext.Quotes.Where(x => x.CharacterId == id).ToList();
+            if (characterData.Quotes != null)
+            {
+                RemoveQuotes(characterData.Quotes, dbQuotes);
+            }
+            else if (dbQuotes != null)
+            {
+                RemoveAllQuotes(dbQuotes);
+            }
+
+            this.dbContext.SaveChanges();
+        }
+
+        public void DeleteById(int characterId)
+        {
+            var character = this.dbContext.Characters.Where(x => x.Id == characterId).FirstOrDefault();
+            var quotes = this.dbContext.Quotes.Where(x => x.CharacterId == characterId).ToList();
+
+            foreach (var quote in quotes)
+            {
+                this.dbContext.Quotes.Remove(quote);
+            }
+
+            this.dbContext.SaveChanges();
+            this.dbContext.Characters.Remove(character);
+            this.dbContext.SaveChanges();
+        }
+
+        private void AddNewQuotes(int characterId, List<string> quotes)
+        {
+            foreach (var quote in quotes)
+            {
+                if (quote == null)
+                {
+                    continue;
+                }
+                var newQuote = new Quote
+                {
+                    CharacterId = characterId,
+                    QuoteLine = quote
+                };
+
+                this.dbContext.Quotes.Add(newQuote);
+            }
+        }
+        private void RemoveQuotes(List<Quote> dbQuotes, List<Quote> quotes)
+        {
+            for (int i = 0; i < dbQuotes.Count(); i++)
+            {
+                if (!quotes.Any(x => x.Id == dbQuotes[i].Id))
+                {
+                    this.dbContext.Quotes.Remove(dbQuotes[i]);
+                }
+            }
+        }
+
+        private void RemoveAllQuotes(List<Quote> dbQuotes)
+        {
+            foreach (var quote in dbQuotes)
+            {
+                this.dbContext.Remove(quote);
+            }
         }
     }
 }

@@ -1,0 +1,73 @@
+﻿@model TheMatrixAPI.Models.Character.EditCharacterViewModel
+
+@{ 
+    var globalQuoteNumber = 0;
+    var races = new List<SelectListItem>();
+    races.Add(new SelectListItem
+    {
+        Text = "Select race",
+        Value = "0"
+    });
+
+    races.AddRange((this.ViewData["Races"] as IEnumerable<TheMatrixAPI.Models.DTO.Race.RaceDTO>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+}
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post" asp-controller="characters" asp-action="edit" asp-route-id="@Model.Id">
+    <div class="form-group d-flex align-items-center">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" type="text" class="form-control" />
+    </div>
+    <div class="form-group d-flex align-items-center">
+        <label asp-for="Alignment"></label>
+        <input asp-for="Alignment" type="text" class="form-control" />
+    </div>
+    <div class="form-group d-flex align-items-center">
+        <label asp-for="RaceId"></label>
+        <select asp-for="RaceId" asp-items="races" class="form-control"> </select>
+    </div>
+    <br />
+    <div id="quotesList">
+        @for (int i = 0; i < Model.Quotes.Count(); i++)
+        {
+            int quoteNumber = i + 1;
+            <div class="form-group d-flex align-items-center">
+                <label asp-for="Quotes">Quote @quoteNumber</label>
+                <input type="hidden" asp-for="Quotes[i].Id" />
+                <input asp-for="Quotes[i].QuoteLine" type="text" class="form-control" value="@Model.Quotes[i].QuoteLine" id="quote@(Model.Quotes[i].Id)" />
+                <button onclick="RemoveQuoteField(event, @Model.Quotes[i].Id)">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        }
+    </div>
+    <button onclick="AddQuoteField(event)">Add Quote</button>
+
+    <input type="submit" value="Add" class="btn btn-primary" />
+</form>
+
+<script>
+    var quoteNumber = 0;
+    var quotesListEl = document.getElementById("quotesList");
+
+    function AddQuoteField(e) {
+        e.preventDefault();
+        var divEl = document.createElement("div");
+        divEl.classList.add("form-group", "d-flex", "align-items-center");
+        divEl.innerHTML = `
+            <label name="NewQuotes">Quote ${++quoteNumber}</label>
+            <input name="NewQuotes" type="text" class="form-control" id="quote${quoteNumber}" />
+            <button onclick="RemoveQuoteField(event, ${quoteNumber})">
+                    <i class="bi bi-x-circle"></i>
+            </button>
+        `;
+        quotesListEl.appendChild(divEl);
+    }
+
+    function RemoveQuoteField(e, quoteId) {
+        e.preventDefault();
+        var divEl = document.getElementById("quote" + quoteId).parentElement;
+        divEl.remove();
+    }
+</script>

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using TheMatrixAPI.Models.Actor;
+    using TheMatrixAPI.Models.Character;
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.DTO;
     using TheMatrixAPI.Models.DTO.Character;
@@ -73,6 +74,12 @@
 
             CreateMap<Character, RaceCharacterDTO>();
             CreateMap<Character, CharacterGroup>();
+            CreateMap<Character, EditCharacterViewModel>()
+                .ForMember(
+                    dto => dto.RaceName,
+                    opt => opt.MapFrom(src => src.Race.Name));
+
+            CreateMap<Character, DeleteCharacterViewModel>();
         }
     }
 }
