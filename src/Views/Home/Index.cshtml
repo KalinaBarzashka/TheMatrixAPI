@@ -2,7 +2,139 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero">
+    <h1>The Matrix API</h1>
+    <p>All the Matrix data you need in one place, easily accessible through a modern RESTful API.</p>
+    <a href="https://thematrixapi.com/documentation">Check out the docs!</a>
+    <div class="hero__fade-bottom"></div>
 </div>
+
+<div class="HomePage container">
+    <h1 class="text-center mb-3">Try it now!</h1>
+    <div class="input-group">
+        <span class="HomePage__label">https://thematrixapi.com/api/</span>
+        <input id="ajax_input" type="text" class="form-control" placeholder="movies/1">
+        <button onclick="F_AJAXCall()" class="HomePage__btn">request</button>
+    </div>
+    <small>Need a hint? try <a href="#" onclick="F_Update(event, 'movies/1')"><i>movies/1</i></a> or <a href="#" onclick="F_Update(event, 'movies/2')"><i>movies/2</i></a> or <a href="#" onclick="F_Update(event, 'movies/3')"><i>movies/3</i></a></small>
+
+    <p class="mt-2 mb-2">Result</p>
+    <div class="HomePage__wall">
+        <pre id="output" class="HomePage__wall-output"></pre>
+    </div>
+</div>
+
+
+<style>
+    .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+        z-index: 1;
+        background-image: url('@Url.Content("~/images/Hero.jpg")');
+        background-size: cover;
+        height: 476px;
+        color: rgb(255, 255, 255);
+        font-size: 28px;
+        text-align: center;
+        background-repeat: no-repeat;
+        background-position: center center;
+        padding-bottom: 50px;
+        font-weight: bold;
+    }
+
+    .hero__fade-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        background-image: linear-gradient( 180deg,rgba(20,20,20,0),rgba(20,20,20,.15) 15%,rgba(20,20,20,.35) 29%,rgba(20,20,20,.58) 44%,#141414 68%,#141414);
+    }
+
+    .HomePage__label {
+        padding: 6px 12px;
+        font-weight: 400;
+        text-align: center;
+        background-color: #eee;
+        border-radius: 5px 0px 0px 5px;
+        border-color: rgba(0, 0, 0, 0.6);
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
+        background-image: linear-gradient(#484e55, #3a3f44 60%, #313539);
+        background-repeat: no-repeat;
+        filter: none;
+        color: #ffffff;
+    }
+
+    .HomePage__wall {
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #1c1e22;
+        border: 1px solid #0c0d0e;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+    }
+
+    .HomePage__wall-output {
+        max-height: 340px;
+        overflow-y: scroll;
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        word-break: break-all;
+        word-wrap: break-word;
+        color: #3a3f44;
+        background-color: #f5f5f5;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+    }
+
+    .HomePage__btn {
+        background-color: #28a745;
+        border: 1px solid #28a745;
+        border-radius: 0px 5px 5px 0px;
+        display: inline-block;
+        font-weight: 400;
+        color: #fefefe;
+        text-align: center;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+</style>
+
+<script>
+    var outputEl = document.getElementById("output");
+    var inputEl = document.getElementById("ajax_input");
+
+    // Initial Call, only once
+    F_AJAXCall();
+
+    async function F_AJAXCall() {
+        var inputValue = inputEl.value || "movies/1";
+        var url = `https://localhost:44384/api/${inputValue}`;
+
+        var response = await fetch(url, {
+            method: "GET"
+        });
+        var result = await response.json();
+        outputEl.innerHTML = JSON.stringify(result, null, 2);
+    }
+
+    function F_Update(e, value) {
+        e.preventDefault();
+        inputEl.value = value;
+        F_AJAXCall();
+    }
+</script>

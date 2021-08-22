@@ -11,9 +11,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="Application__navbar navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TheMatrixAPI</a>
+                <a class="Application__navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TheMatrixAPI</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,16 +21,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Movies" asp-action="Index">Movies</a>
+                            <a class="nav-link text-white" asp-controller="Movies" asp-action="Index">Movies</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Actors" asp-action="Index">Actors</a>
+                            <a class="nav-link text-white" asp-controller="Actors" asp-action="Index">Actors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Races" asp-action="Index">Races</a>
+                            <a class="nav-link text-white" asp-controller="Races" asp-action="Index">Races</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Characters" asp-action="Index">Characters</a>
+                            <a class="nav-link text-white" asp-controller="Characters" asp-action="Index">Characters</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -38,13 +38,11 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main>
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
+    <footer class="Application__footer border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.UtcNow.Year - TheMatrixAPI
         </div>
@@ -55,3 +53,32 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+<style>
+    .Application__navbar {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #fff;
+        background-color: #0b0d12;
+        border-bottom: solid 1px rgba(255,255,255,0.15) !important;
+    }
+    .Application__navbar-brand {
+        display: inline-block;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+    .Application__navbar-brand:hover {
+        text-decoration: none;
+    }
+
+    .Application__footer {
+        background-color: #0b0d12;
+        border-top: solid 1px rgba(255,255,255,0.15) !important;
+    }
+</style>

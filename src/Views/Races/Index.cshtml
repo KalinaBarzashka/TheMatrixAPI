@@ -4,35 +4,38 @@
     ViewData["Title"] = "Races";
 }
 
-<h1>Races</h1>
+<div class="container">
+    <h1>Races</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var race in Model)
-        {
+    <table class="table table-dark">
+        <thead>
             <tr>
-                <td>@race.Name</td>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var race in Model)
+            {
+                <tr>
+                    <td>@race.Name</td>
+                    <td class="races_action-buttons">
+                        <a asp-action="Edit" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-action="Details" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
+                        <a asp-action="Delete" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
                 <td class="races_action-buttons">
-                    <a asp-action="Edit" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                    <a asp-action="Details" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
-                    <a asp-action="Delete" asp-route-id="@race.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
+                    <a asp-action="Add" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i></a>
                 </td>
             </tr>
-        }
-        <tr>
-            <td></td>
-            <td class="races_action-buttons">
-                <a asp-action="Add" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i></a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+</div>
 
 <style>
     .races_action-buttons {

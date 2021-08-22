@@ -4,7 +4,7 @@ using TheMatrixAPI.Models.DbModels;
 
 namespace TheMatrixAPI.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -16,6 +16,8 @@ namespace TheMatrixAPI.Data
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<Race> Races { get; set; }
+        public virtual DbSet<RequestFromIP> RequestsFromIP { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,9 +33,6 @@ namespace TheMatrixAPI.Data
                 .HasOne(c => c.Character)
                 .WithOne(a => a.Actor)
                 .HasForeignKey<Character>(x => x.ActorId);
-
-
-
         }
     }
 }

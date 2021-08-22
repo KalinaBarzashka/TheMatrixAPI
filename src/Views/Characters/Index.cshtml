@@ -3,83 +3,87 @@
 @{
     ViewData["Title"] = "Characters";
 }
-<h1>Characters</h1>
-<div class="Characters__container">
-    <div class="Characters__container-item">
-        <img src="~/images/TheGood_800x450.png" />
-        <div class="Characters__container-name">The Good</div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var characters in Model.Good.ToList())
-                {
+
+<div class="container">
+    <h1>Characters</h1>
+    <div class="Characters__container">
+        <div class="Characters__container-item">
+            <img src="~/images/TheGood_800x450.png" />
+            <div class="Characters__container-name">The Good</div>
+            <table class="table table-dark">
+                <thead>
                     <tr>
-                        <td>@characters.Name</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                            <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
-                            <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
-                        </td>
+                        <th>Name</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="Characters__container-item">
-        <img src="~/images/TheBad_800x450.png" />
-        <div class="Characters__container-name">The Bad</div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var characters in Model.Bad.ToList())
-                {
+                </thead>
+                <tbody>
+                    @foreach (var characters in Model.Good.ToList())
+                    {
+                        <tr>
+                            <td>@characters.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                                <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
+                                <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="Characters__container-item">
+            <img src="~/images/TheBad_800x450.png" />
+            <div class="Characters__container-name">The Bad</div>
+            <table class="table table-dark">
+                <thead>
                     <tr>
-                        <td>@characters.Name</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                            <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
-                            <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
-                        </td>
+                        <th>Name</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="Characters__container-item">
-        <img src="~/images/TheNeutral_800x450.png" />
-        <div class="Characters__container-name">The Neutral</div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var characters in Model.Neutral.ToList())
-                {
+                </thead>
+                <tbody>
+                    @foreach (var characters in Model.Bad.ToList())
+                    {
+                        <tr>
+                            <td>@characters.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                                <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
+                                <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="Characters__container-item">
+            <img src="~/images/TheNeutral_800x450.png" />
+            <div class="Characters__container-name">The Neutral</div>
+            <table class="table table-dark">
+                <thead>
                     <tr>
-                        <td>@characters.Name</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                            <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
-                            <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
-                        </td>
+                        <th>Name</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var characters in Model.Neutral.ToList())
+                    {
+                        <tr>
+                            <td>@characters.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                                <a asp-action="Details" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-book"></i></a>
+                                <a asp-action="Delete" asp-route-id="@characters.Id" class="btn btn-primary"><i class="bi bi-x-circle"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
 
 <style>
@@ -96,7 +100,7 @@
         flex-direction: column;
         width: 350px;
         border-radius: 5px;
-        background: #fffffb;
+        background-color: #343a40;
         position: relative;
         box-shadow: 5px 5px 10px rgb(0 0 0 / 50%);
         margin-right: 8px;

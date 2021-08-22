@@ -1,16 +1,17 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using TheMatrixAPI.Data;
-using TheMatrixAPI.Data.Seeding;
-using TheMatrixAPI.Services;
-
 namespace TheMatrixAPI
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using TheMatrixAPI.Data;
+    using TheMatrixAPI.Data.Seeding;
+    using TheMatrixAPI.Models.DbModels;
+    using TheMatrixAPI.Services;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -30,11 +31,17 @@ namespace TheMatrixAPI
             services.AddTransient<IActorsService, ActorsService>();
             services.AddTransient<ICharactersService, CharactersService>();
             services.AddTransient<IRacesService, RacesService>();
+            services.AddTransient<IIPTokenMiddlewareService, IPTokenMiddlewareService>();
+            services.AddTransient<IUserService, UserService>();
+            //services.AddTransient<IPTokenMiddleware, IPTokenMiddleware>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<ApplicationUser>(options =>
             {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -42,7 +49,10 @@ namespace TheMatrixAPI
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequiredLength = 6;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddScoped<UserManager<ApplicationUser>>();
 
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
@@ -82,13 +92,20 @@ namespace TheMatrixAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.Map("/api", a => 
+            //{
+            //    a.UseMiddleware<IPTokenMiddleware>();
+            //});
+
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }

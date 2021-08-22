@@ -11,10 +11,12 @@
     public class MoviesController : Controller
     {
         private readonly IMoviesService moviesService;
+        private readonly IIPTokenMiddlewareService iPTokenMiddlewareService;
 
-        public MoviesController(IMoviesService moviesService)
+        public MoviesController(IMoviesService moviesService, IIPTokenMiddlewareService iPTokenMiddlewareService)
         {
             this.moviesService = moviesService;
+            this.iPTokenMiddlewareService = iPTokenMiddlewareService;
         }
 
         [Route("/movies")]
@@ -30,6 +32,26 @@
         public IActionResult GetAllInJSON()
         {
             var movies = this.moviesService.GetAll<MovieDTO>();
+
+            var ip = this.Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+            if(ip == "0.0.0.1")
+            {
+                ip = "127.0.0.1";
+            }
+
+            try
+            {
+                this.iPTokenMiddlewareService.AddRecordByIp(ip, DateTime.UtcNow.ToString("dd/MM/yyyy"));
+            }
+            catch(Exception ex)
+            {
+                var errorModel = new CustomErrorViewModel
+                {
+                    Message = ex.Message
+                };
+                return this.View("Errors", errorModel);
+            }
+
             return this.Json(movies);
         }
 
