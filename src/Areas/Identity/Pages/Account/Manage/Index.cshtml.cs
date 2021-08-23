@@ -25,6 +25,8 @@ namespace TheMatrixAPI.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        public string TokenId { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -44,6 +46,7 @@ namespace TheMatrixAPI.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            TokenId = user.TokenId.ToString();
 
             Input = new InputModel
             {
