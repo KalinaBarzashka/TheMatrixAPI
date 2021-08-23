@@ -106,6 +106,7 @@ namespace TheMatrixAPI
                 endpoints.MapRazorPages();
             });
 
+            //SeedUserAdminRoles.Initialize(app.ApplicationServices);
         }
     }
 }

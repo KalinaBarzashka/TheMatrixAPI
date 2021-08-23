@@ -1,6 +1,7 @@
 ﻿@model TheMatrixAPI.Models.Character.EditCharacterViewModel
 
 @{ 
+    ViewData["Title"] = "Edit Character";
     var globalQuoteNumber = 0;
     var races = new List<SelectListItem>();
     races.Add(new SelectListItem
@@ -13,6 +14,7 @@
 }
 
 <div class="container">
+    <h1 class="mt-4">Edit Character</h1>
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form method="post" asp-controller="characters" asp-action="edit" asp-route-id="@Model.Id">

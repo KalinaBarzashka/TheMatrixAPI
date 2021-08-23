@@ -1,5 +1,6 @@
 ﻿@model TheMatrixAPI.Models.Character.AddCharacterViewModel
 @{ 
+    ViewData["Title"] = "Add Character";
     var alignments = new List<SelectListItem>();
     alignments.Add(new SelectListItem
     {
@@ -36,7 +37,7 @@
 }
 
 <div class="container">
-    <h1>Add Character</h1>
+    <h1 class="mt-4">Add Character</h1>
 
     <div asp-validation-summary="All" class="text-danger"></div>
 

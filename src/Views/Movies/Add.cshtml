@@ -1,7 +1,11 @@
 ﻿@model TheMatrixAPI.Models.Movie.AddMovieViewModel
 
+@{ 
+    ViewData["Title"] = "Add Movie";
+}
+
 <div class="container">
-    <h1>Add Movie</h1>
+    <h1 class="mt-4">Add Movie</h1>
 
     <div asp-validation-summary="All" class="text-danger"></div>
 

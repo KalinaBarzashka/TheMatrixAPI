@@ -1,6 +1,7 @@
 ﻿@model TheMatrixAPI.Models.Actor.EditActorViewModel
 
 @{
+    ViewData["Title"] = "Edit Actor";
     var characters = new List<SelectListItem>();
     characters.Add(new SelectListItem()
     {
@@ -14,6 +15,7 @@
 }
 
 <div class="container">
+    <h1 class="mt-4">Edit Actor</h1>
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form method="post" asp-controller="actors" asp-action="edit">
@@ -50,4 +52,4 @@
         <input type="submit" value="Edit" class="btn btn-primary" />
     </form>
 
- </div>
+</div>

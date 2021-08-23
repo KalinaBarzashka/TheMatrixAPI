@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace TheMatrixAPI.Data.Seeding
+﻿namespace TheMatrixAPI.Data.Seeding
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public class ApplicationDbContextSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
@@ -25,6 +25,8 @@ namespace TheMatrixAPI.Data.Seeding
                               new MovieSeeder(),
                               new ActorSeeder()
                           };
+
+            await SeedUserAdminRoles.Initialize(serviceProvider);
 
             foreach (var seeder in seeders)
             {

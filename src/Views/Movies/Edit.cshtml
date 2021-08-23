@@ -1,6 +1,11 @@
 ﻿@model TheMatrixAPI.Models.Movie.EditMovieViewModel;
 
+@{ 
+    ViewData["Title"] = "Edit Movie";
+}
+
 <div class="container">
+    <h1 class="mt-4">Edit Movie</h1>
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form method="post" asp-controller="Movies" asp-action="Edit">
