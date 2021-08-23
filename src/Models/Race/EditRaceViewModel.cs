@@ -8,6 +8,7 @@
 
         [Required]
         [MaxLength(50)]
+        [Display(Name = "Race Name")]
         public string Name { get; set; }
     }
 }

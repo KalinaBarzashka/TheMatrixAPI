@@ -5,6 +5,7 @@
     using System;
     using TheMatrixAPI.Models;
     using TheMatrixAPI.Models.Character;
+    using TheMatrixAPI.Models.DTO.Character;
     using TheMatrixAPI.Models.DTO.Race;
     using TheMatrixAPI.Services;
 
@@ -24,6 +25,20 @@
         {
             var characters = this.charactersService.GetAllGroups();
             return View(characters);
+        }
+
+        [Route("/api/characters")]
+        public IActionResult GetAllJson()
+        {
+            var characters = this.charactersService.GetAll<CharacterDTO>();
+            return this.Json(characters);
+        }
+
+        [Route("/api/characters/{id}")]
+        public IActionResult GetActorById(int id)
+        {
+            var character = this.charactersService.GetById<CharacterDTO>(id);
+            return this.Json(character);
         }
 
         public ActionResult Add()
@@ -166,6 +181,12 @@
             }
 
             return Redirect("/characters");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var charactersDetails = this.charactersService.GetById<CharacterDetailsViewModel>(id);
+            return this.View(charactersDetails);
         }
     }
 }

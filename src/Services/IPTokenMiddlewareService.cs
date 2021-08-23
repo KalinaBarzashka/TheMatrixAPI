@@ -44,5 +44,35 @@
 
             this.dbContext.SaveChanges();
         }
+
+        public void AddRecordByTokenId(string tokenId, string date)
+        {
+            var dbDate = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            var dbRecord = this.dbContext.RequestsFromTokenId.Where(x => x.TokenId == tokenId && x.Date.Year == dbDate.Year && x.Date.Month == dbDate.Month).FirstOrDefault();
+
+            if (dbRecord == null)
+            {
+                var newRecord = new RequestFromTokenId
+                {
+                    TokenId = tokenId,
+                    Date = dbDate,
+                    RequestsCount = 0
+                };
+
+                this.dbContext.RequestsFromTokenId.Add(newRecord);
+            }
+            else
+            {
+                if (dbRecord.RequestsCount >= 1000)
+                {
+                    throw new Exception("You have reached your maximum limit of requests per day!");
+                }
+
+                dbRecord.RequestsCount++;
+            }
+
+            this.dbContext.SaveChanges();
+        }
     }
 }

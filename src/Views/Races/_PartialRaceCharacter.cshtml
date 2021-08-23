@@ -1,0 +1,19 @@
+﻿@model IEnumerable<TheMatrixAPI.Models.Race.RaceCharacterViewModel>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Character Name</th>
+            <th>Alignment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var character in Model.OrderBy(x => x.Alignment))
+        {
+            <tr>
+                <td>@character.Name</td>
+                <td>@character.Alignment</td>
+            </tr>
+        }
+    </tbody>
+</table>

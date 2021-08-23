@@ -10,6 +10,7 @@
 
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Character Name")]
         public string Name { get; set; }
 
         [MaxLength(20)]
@@ -18,6 +19,7 @@
 
         [Required]
         public int RaceId { get; set; }
+        [Display(Name = "Race Name")]
         public string RaceName { get; set; }
 
         public virtual List<Quote> Quotes { get; set; }

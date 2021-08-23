@@ -127,7 +127,7 @@
             var dbQuotes = this.dbContext.Quotes.Where(x => x.CharacterId == id).ToList();
             if (characterData.Quotes != null)
             {
-                RemoveQuotes(characterData.Quotes, dbQuotes);
+                RemoveQuotes(dbQuotes, characterData.Quotes);
             }
             else if (dbQuotes != null)
             {

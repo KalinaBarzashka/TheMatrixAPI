@@ -42,22 +42,24 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form method="post" asp-controller="characters" asp-action="add">
-        <div class="form-group d-flex align-items-center">
+        <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" type="text" class="form-control" />
         </div>
-        <div class="form-group d-flex align-items-center">
+        <div class="form-group">
             <label asp-for="Alignment"></label>
             <select asp-for="Alignment" asp-items="alignments" class="form-control"> </select>
         </div>
-        <div class="form=group d-flex align-items-center">
+        <div class="form=group">
             <label asp-for="RaceId"></label>
             <select asp-for="RaceId" asp-items="races" class="form-control"></select>
         </div>
         <br />
         <div id="quotesList"></div>
-        <button onclick="AddQuoteField(event)">Add Quote</button>
-        <input type="submit" value="Add" class="btn btn-primary" />
+        <button onclick="AddQuoteField(event)" class="btn btn-outline-light" style="min-width: 140px">Add Quote</button>
+        <br />
+        <br />
+        <button type="submit" class="btn btn-outline-success" style="min-width: 140px">Add</button>
     </form>
 
 </div>
@@ -69,7 +71,7 @@
     function AddQuoteField(e) {
         e.preventDefault();
         var divEl = document.createElement("div");
-        divEl.classList.add("form-group", "d-flex", "align-items-center");
+        divEl.classList.add("form-group");
         divEl.innerHTML = `
             <label name="Quotes">Quote ${++quoteNumber}</label>
             <input name="Quotes" type="text" class="form-control" />

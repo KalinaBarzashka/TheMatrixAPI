@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
-
-namespace TheMatrixAPI.Models.DTO.Character
+﻿namespace TheMatrixAPI.Models.DTO.Character
 {
+    using System.Collections.Generic;
+
     public class CharacterDTO
-    {
-        public string Alignment { get; set; }
-
-        public List<CharactersInfo> Characters { get; set; }
-    }
-
-    public class CharactersInfo
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Alignment { get; set; }
+
+        public string RaceName { get; set; }
+
+        public string ActorName { get; set; }
+
+        public List<CharacterQuoteDTO> Quotes { get; set; }
+    }
+
+    public class CharacterQuoteDTO
+    {
+        public int Id { get; set; }
+
+        public string QuoteLine { get; set; }
     }
 }

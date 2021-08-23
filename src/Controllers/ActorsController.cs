@@ -7,7 +7,6 @@
     using TheMatrixAPI.Models;
     using TheMatrixAPI.Models.Actor;
     using TheMatrixAPI.Models.DTO;
-    using TheMatrixAPI.Models.DTO.Character;
     using TheMatrixAPI.Services;
 
     public class ActorsController : Controller

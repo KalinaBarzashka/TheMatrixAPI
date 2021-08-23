@@ -23,8 +23,8 @@
 
                 <div class="movie-body">
                     <h5 class="card-title">@movie.Name</h5>
-                    <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
-                    <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger">Delete</a>
+                    <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-outline-warning">Edit</a>
+                    <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-outline-danger">Delete</a>
                 </div>
             </div>
         }
@@ -37,7 +37,7 @@
 
             <div class="movie-body">
                 <h5 class="card-title">Add New Movie</h5>
-                <a asp-controller="Movies" asp-action="Add" class="btn btn-primary">Add New Movie</a>
+                <a asp-controller="Movies" asp-action="Add" class="btn btn-outline-success">Add New Movie</a>
             </div>
         </div>
         <!-- End-If -->

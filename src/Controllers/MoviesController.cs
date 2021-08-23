@@ -7,16 +7,21 @@
     using TheMatrixAPI.Models.Movie;
     using TheMatrixAPI.Services;
     using System.Linq;
+    using Microsoft.AspNetCore.Identity;
+    using TheMatrixAPI.Models.DbModels;
+    using System.Threading.Tasks;
 
     public class MoviesController : Controller
     {
         private readonly IMoviesService moviesService;
         private readonly IIPTokenMiddlewareService iPTokenMiddlewareService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public MoviesController(IMoviesService moviesService, IIPTokenMiddlewareService iPTokenMiddlewareService)
+        public MoviesController(IMoviesService moviesService, IIPTokenMiddlewareService iPTokenMiddlewareService, UserManager<ApplicationUser> userManager)
         {
             this.moviesService = moviesService;
             this.iPTokenMiddlewareService = iPTokenMiddlewareService;
+            this.userManager = userManager;
         }
 
         [Route("/movies")]
@@ -29,28 +34,9 @@
         }
 
         [Route("/api/movies")]
-        public IActionResult GetAllInJSON()
+        public async Task<IActionResult> GetAllInJSON()
         {
-            var movies = this.moviesService.GetAll<MovieDTO>();
-
-            var ip = this.Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
-            if(ip == "0.0.0.1")
-            {
-                ip = "127.0.0.1";
-            }
-
-            try
-            {
-                this.iPTokenMiddlewareService.AddRecordByIp(ip, DateTime.UtcNow.ToString("dd/MM/yyyy"));
-            }
-            catch(Exception ex)
-            {
-                var errorModel = new CustomErrorViewModel
-                {
-                    Message = ex.Message
-                };
-                return this.View("Errors", errorModel);
-            }
+            var movies = this.moviesService.GetAll<MovieDTO>();            
 
             return this.Json(movies);
         }

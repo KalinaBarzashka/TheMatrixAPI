@@ -1,0 +1,36 @@
+﻿@model TheMatrixAPI.Models.Character.CharacterDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <h1 class="mt-4">Details</h1>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" type="text" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="Alignment"></label>
+        <input asp-for="Alignment" type="text" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="RaceName"></label>
+        <input asp-for="RaceName" type="text" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="ActorName"></label>
+        <input asp-for="ActorName" type="text" class="form-control" disabled />
+    </div>
+
+    <hr class="bg-success" />
+    @if (Model.Quotes.Count > 0)
+    {
+        <partial name="_PartialCharacterQuote" model="Model.Quotes" />
+    }
+    else
+    {
+        <div>No quotes yet? Add quotes <a asp-controller="Characters" asp-action="Edit" asp-route-id="@Model.Id">here</a>!</div>
+    }
+</div>

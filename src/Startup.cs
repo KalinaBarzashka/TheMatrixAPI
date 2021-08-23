@@ -1,7 +1,9 @@
 namespace TheMatrixAPI
 {
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -9,6 +11,7 @@ namespace TheMatrixAPI
     using Microsoft.Extensions.Hosting;
     using TheMatrixAPI.Data;
     using TheMatrixAPI.Data.Seeding;
+    using TheMatrixAPI.Middlewares;
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Services;
 
@@ -33,7 +36,7 @@ namespace TheMatrixAPI
             services.AddTransient<IRacesService, RacesService>();
             services.AddTransient<IIPTokenMiddlewareService, IPTokenMiddlewareService>();
             services.AddTransient<IUserService, UserService>();
-            //services.AddTransient<IPTokenMiddleware, IPTokenMiddleware>();
+            services.AddTransient<IPTokenMiddleware, IPTokenMiddleware>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -84,6 +87,16 @@ namespace TheMatrixAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new { error = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -92,10 +105,7 @@ namespace TheMatrixAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.Map("/api", a => 
-            //{
-            //    a.UseMiddleware<IPTokenMiddleware>();
-            //});
+            app.UseMiddleware<IPTokenMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

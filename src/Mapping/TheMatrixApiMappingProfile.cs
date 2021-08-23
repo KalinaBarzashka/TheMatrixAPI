@@ -63,7 +63,23 @@
 
             CreateMap<Movie, Movie>();
 
-            CreateMap<Character, CharacterDTO>();
+            CreateMap<Character, CharacterDTO>()
+                .ForMember(
+                    dto => dto.RaceName,
+                    opt => opt.MapFrom(src => src.Race.Name))
+                .ForMember(
+                    dto => dto.ActorName,
+                    opt => opt.MapFrom(src => src.Actor.FirstName + src.Actor.LastName));
+            CreateMap<Quote, CharacterQuoteDTO>();
+
+            CreateMap<Character, CharacterDetailsViewModel>()
+                .ForMember(
+                    dto => dto.RaceName,
+                    opt => opt.MapFrom(src => src.Race.Name))
+                .ForMember(
+                    dto => dto.ActorName,
+                    opt => opt.MapFrom(src => src.Actor.FirstName + src.Actor.LastName));
+            CreateMap<Quote, CharacterQuoteDetailsViewModel>();
 
             CreateMap<Actor, DeleteActorViewModel>();
 
@@ -72,7 +88,7 @@
             CreateMap<Race, DeleteRaceViewModel>();
             CreateMap<Race, RaceDetailsViewModel>();
 
-            CreateMap<Character, RaceCharacterDTO>();
+            CreateMap<Character, RaceCharacterViewModel>();
             CreateMap<Character, CharacterGroup>();
             CreateMap<Character, EditCharacterViewModel>()
                 .ForMember(

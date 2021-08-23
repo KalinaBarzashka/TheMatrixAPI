@@ -67,6 +67,10 @@
         {
             var originalActor = this.dbContext.Actors.Where(x => x.Id == id).FirstOrDefault();
 
+            var currentCharacterId = originalActor.CharacterId;
+            var currentCharacter = this.dbContext.Characters.Where(x => x.Id == currentCharacterId).FirstOrDefault();
+            currentCharacterId = null;
+
             originalActor.FirstName = actorData.FirstName;
             originalActor.MiddleName = actorData.MiddleName;
             originalActor.LastName = actorData.LastName;

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace TheMatrixAPI.Models.Character
+﻿namespace TheMatrixAPI.Models.Character
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public class AddCharacterViewModel
     {
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Character Name")]
         public string Name { get; set; }
 
         [Required]
@@ -16,6 +17,7 @@ namespace TheMatrixAPI.Models.Character
 
         [Required]
         [Range(1, Int32.MaxValue, ErrorMessage = "Please select race!")]
+        [Display(Name = "Select Race")]
         public int RaceId { get; set; }
 
         public List<string> Quotes { get; set; }

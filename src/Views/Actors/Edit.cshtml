@@ -32,8 +32,8 @@
             <input asp-for="LastName" type="text" value="@Model.LastName" class="form-control">
         </div>
         <br />
-        <div class="form-group d-flex align-items-center">
-            <label asp-for="Character.Id">Character Name</label>
+        <div class="form-group">
+            <label asp-for="Character.Id"></label>
             <select asp-for="Character.Id" asp-items="characters" class="form-control"></select>
             <span asp-validation-for="Character.Id" class="text-danger"></span>
         </div>
@@ -49,7 +49,7 @@
         }
 
         <input type="hidden" value="@Model.Id" />
-        <input type="submit" value="Edit" class="btn btn-primary" />
+        <input type="submit" value="Edit" class="btn btn-outline-warning" style="min-width: 140px" />
     </form>
 
 </div>

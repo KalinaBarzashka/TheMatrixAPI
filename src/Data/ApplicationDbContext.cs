@@ -17,6 +17,7 @@
         public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<Race> Races { get; set; }
         public virtual DbSet<RequestFromIP> RequestsFromIP { get; set; }
+        public virtual DbSet<RequestFromTokenId> RequestsFromTokenId { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

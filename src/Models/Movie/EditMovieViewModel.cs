@@ -10,6 +10,7 @@ namespace TheMatrixAPI.Models.Movie
 
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Movie Name")]
         public string Name { get; set; }
 
         [Required]
@@ -47,6 +48,7 @@ namespace TheMatrixAPI.Models.Movie
         [Display(Name = "Box Office")]
         public decimal? BoxOffice { get; set; }
 
+        [Display(Name = "Image Url")]
         public string ImageUrl { get; set; }
     }
 }

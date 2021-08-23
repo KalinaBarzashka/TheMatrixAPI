@@ -9,55 +9,61 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <form method="post" asp-controller="Movies" asp-action="Edit">
-        <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" type="text" value="@Model.Name" class="form-control" placeholder="The Matrix 1,2,3...">
-        </div>
-        <div class="form-group">
-            <label asp-for="MovieNumber"></label>
-            <input asp-for="MovieNumber" type="text" value="@Model.MovieNumber" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="MovieLength"></label>
-            <input asp-for="MovieLength" type="text" value="@Model.MovieLength" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Director"></label>
-            <input asp-for="Director" type="text" value="@Model.Director" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Producer"></label>
-            <input asp-for="Producer" type="text" value="@Model.Producer" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="DistributedBy"></label>
-            <input asp-for="DistributedBy" type="text" value="@Model.DistributedBy" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="ReleaseDate"></label>
-            <input asp-for="ReleaseDate" type="text" value="@Model.ReleaseDate" class="form-control" placeholder="01/05/2004">
-        </div>
-        <div class="form-group">
-            <label asp-for="Country"></label>
-            <input asp-for="Country" type="text" value="@Model.Country" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Language"></label>
-            <input asp-for="Language" type="text" value="@Model.Language" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Budget"></label>
-            <input asp-for="Budget" type="text" value="@Model.Budget" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="BoxOffice"></label>
-            <input asp-for="BoxOffice" type="text" value="@Model.BoxOffice" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="ImageUrl"></label>
-            <input asp-for="ImageUrl" type="text" value="@Model.ImageUrl" class="form-control">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" type="text" value="@Model.Name" class="form-control" placeholder="The Matrix 1,2,3...">
+                </div>
+                <div class="form-group">
+                    <label asp-for="MovieNumber"></label>
+                    <input asp-for="MovieNumber" type="text" value="@Model.MovieNumber" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="MovieLength"></label>
+                    <input asp-for="MovieLength" type="text" value="@Model.MovieLength" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Director"></label>
+                    <input asp-for="Director" type="text" value="@Model.Director" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Producer"></label>
+                    <input asp-for="Producer" type="text" value="@Model.Producer" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="DistributedBy"></label>
+                    <input asp-for="DistributedBy" type="text" value="@Model.DistributedBy" class="form-control">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ReleaseDate"></label>
+                    <input asp-for="ReleaseDate" type="text" value="@Model.ReleaseDate" class="form-control" placeholder="01/05/2004">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country"></label>
+                    <input asp-for="Country" type="text" value="@Model.Country" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Language"></label>
+                    <input asp-for="Language" type="text" value="@Model.Language" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Budget"></label>
+                    <input asp-for="Budget" type="text" value="@Model.Budget" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="BoxOffice"></label>
+                    <input asp-for="BoxOffice" type="text" value="@Model.BoxOffice" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" type="text" value="@Model.ImageUrl" class="form-control">
+                </div>
+            </div>
         </div>
         <input type="hidden" value="@Model.Id" />
-        <input type="submit" value="Edit" class="btn btn-primary" />
+        <input type="submit" value="Edit" class="btn btn-outline-warning" style="min-width: 140px" />
     </form>
 </div>
