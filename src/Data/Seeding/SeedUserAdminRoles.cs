@@ -12,16 +12,24 @@ namespace TheMatrixAPI.Data.Seeding
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             var dbContext = serviceProvider.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
+            var roleManager = serviceProvider.GetService(typeof(RoleManager<IdentityRole>)) as RoleManager<IdentityRole>;
 
             string[] roles = new string[] { "Admin", "User" };
 
             foreach (string role in roles)
             {
-                var roleStore = new RoleStore<IdentityRole>(dbContext);
+                //var roleStore = new RoleStore<IdentityRole>(dbContext);
+                //
+                //if (!dbContext.Roles.Any(r => r.Name == role))
+                //{
+                //    await roleStore.CreateAsync(new IdentityRole(role));
+                //}
 
-                if (!dbContext.Roles.Any(r => r.Name == role))
+                if (!await roleManager.RoleExistsAsync(role))
                 {
-                    await roleStore.CreateAsync(new IdentityRole(role));
+                    var newRole = new IdentityRole();
+                    newRole.Name = role;
+                    await roleManager.CreateAsync(newRole);
                 }
             }
 

@@ -108,7 +108,7 @@ namespace TheMatrixAPI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.UserName, Email = Input.Email, FirstName = Input.FirstName, MiddleName = Input.MiddleName, LastName = Input.LastName, EGN = Input.EGN, PhoneNumber = Input.Phone, CreatedOn = DateTime.UtcNow };
+                var user = new ApplicationUser { UserName = Input.UserName, Email = Input.Email, FirstName = Input.FirstName, MiddleName = Input.MiddleName, LastName = Input.LastName, PhoneNumber = Input.Phone, CreatedOn = DateTime.UtcNow };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

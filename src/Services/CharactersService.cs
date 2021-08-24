@@ -127,7 +127,7 @@
             var dbQuotes = this.dbContext.Quotes.Where(x => x.CharacterId == id).ToList();
             if (characterData.Quotes != null)
             {
-                RemoveQuotes(dbQuotes, characterData.Quotes);
+                RemoveAndEditQuotes(dbQuotes, characterData.Quotes);
             }
             else if (dbQuotes != null)
             {
@@ -169,13 +169,18 @@
                 this.dbContext.Quotes.Add(newQuote);
             }
         }
-        private void RemoveQuotes(List<Quote> dbQuotes, List<Quote> quotes)
+        private void RemoveAndEditQuotes(List<Quote> dbQuotes, List<Quote> quotes)
         {
             for (int i = 0; i < dbQuotes.Count(); i++)
             {
                 if (!quotes.Any(x => x.Id == dbQuotes[i].Id))
                 {
                     this.dbContext.Quotes.Remove(dbQuotes[i]);
+                }
+                else
+                {
+                    var newQuoteLine = quotes.Where(x => x.Id == dbQuotes[i].Id).FirstOrDefault();
+                    dbQuotes[i].QuoteLine = newQuoteLine.QuoteLine;
                 }
             }
         }

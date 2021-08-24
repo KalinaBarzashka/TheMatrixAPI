@@ -18,13 +18,5 @@
 
             return userFirstLastName;
         }
-
-        public string GetUserIdByEGN(string EGN)
-        {
-            return this.dbContext.ApplicationUsers
-                .Where(x => x.EGN == EGN)
-                .Select(x => x.Id)
-                .FirstOrDefault();
-        }
     }
 }

@@ -20,7 +20,6 @@
         [MaxLength(40)]
         public string FirstName { get; set; }
 
-        [Required]
         [MaxLength(40)]
         public string MiddleName { get; set; }
 
@@ -28,8 +27,8 @@
         [MaxLength(40)]
         public string LastName { get; set; }
 
-        [MaxLength(10)]
-        public string EGN { get; set; }
+        //[MaxLength(10)]
+        //public string EGN { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

@@ -11,6 +11,7 @@
     using TheMatrixAPI.Models.DTO.Quote;
     using TheMatrixAPI.Models.DTO.Race;
     using TheMatrixAPI.Models.Movie;
+    using TheMatrixAPI.Models.Quote;
     using TheMatrixAPI.Models.Race;
 
     public class TheMatrixApiMappingProfile : Profile
@@ -100,6 +101,7 @@
 
             CreateMap<Quote, QuoteDTO>();
             CreateMap<Character, QuoteCharacterDTO>();
+            CreateMap<Character, QuoteCharacterViewModel>();
         }
     }
 }

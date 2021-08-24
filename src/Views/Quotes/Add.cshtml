@@ -1,0 +1,31 @@
+﻿@model TheMatrixAPI.Models.Quote.AddQuoteViewModel
+
+@{
+    ViewData["Title"] = "Add Quote";
+
+    var characters = new List<SelectListItem>();
+    characters.Add(new SelectListItem()
+    {
+        Text = "Select character",
+        Value = "0"
+    });
+    characters.AddRange((Model.Characters as IEnumerable<TheMatrixAPI.Models.Quote.QuoteCharacterViewModel>).Select(x => new SelectListItem(x.Name, x.Id.ToString())).ToList());
+}
+
+<div class="container">
+    <h1 class="mt-4">Add Quote</h1>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form method="post" asp-controller="Quotes" asp-action="Add">
+        <div class="form-group">
+            <label asp-for="QuoteLine"></label>
+            <input asp-for="QuoteLine" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="CharacterId"></label>
+            <select asp-items="characters" asp-for="CharacterId" class="form-control"></select>
+        </div>
+        <input type="submit" value="Add" class="btn btn-outline-success" style="min-width: 140px" />
+    </form>
+</div>

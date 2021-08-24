@@ -5,6 +5,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using TheMatrixAPI.Data;
+    using TheMatrixAPI.Models.DbModels;
+    using TheMatrixAPI.Models.Quote;
 
     public class QuotesService : IQuotesService
     {
@@ -39,6 +41,18 @@
                .FirstOrDefault();
 
             return quote;
+        }
+
+        public void Add(AddQuoteViewModel quoteData)
+        {
+            var quote = new Quote
+            {
+                QuoteLine = quoteData.QuoteLine,
+                CharacterId = quoteData.CharacterId
+            };
+
+            this.dbContext.Quotes.Add(quote);
+            this.dbContext.SaveChanges();
         }
     }
 }
