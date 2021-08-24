@@ -1,5 +1,6 @@
 ﻿namespace TheMatrixAPI.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -21,6 +22,7 @@
         }
 
         [Route("/characters")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var characters = this.charactersService.GetAllGroups();
@@ -28,6 +30,8 @@
         }
 
         [Route("/api/characters")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetAllJson()
         {
             var characters = this.charactersService.GetAll<CharacterDTO>();
@@ -35,12 +39,15 @@
         }
 
         [Route("/api/characters/{id}")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetActorById(int id)
         {
             var character = this.charactersService.GetById<CharacterDTO>(id);
             return this.Json(character);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Add()
         {
             var races = this.racesService.GetAll<RaceDTO>();
@@ -49,6 +56,7 @@
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddCharacterViewModel characterData)
@@ -74,6 +82,7 @@
             return Redirect("/characters");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -95,8 +104,10 @@
 
             return this.View(character);
         }
-
+        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, EditCharacterViewModel characterData)
         {
             var characterExisis = this.charactersService.DoesCharacterExist(id);
@@ -134,6 +145,7 @@
             return Redirect("/characters");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -152,8 +164,10 @@
             return this.View(character);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult PostDelete(int id)
         {
             var characterExists = this.charactersService.DoesCharacterExist(id);
@@ -183,6 +197,7 @@
             return Redirect("/characters");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Details(int id)
         {
             var charactersDetails = this.charactersService.GetById<CharacterDetailsViewModel>(id);

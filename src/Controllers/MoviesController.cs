@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Identity;
     using TheMatrixAPI.Models.DbModels;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
 
     public class MoviesController : Controller
     {
@@ -24,6 +25,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("/movies")]
         public IActionResult Index()
         {
@@ -34,6 +36,8 @@
         }
 
         [Route("/api/movies")]
+        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> GetAllInJSON()
         {
             var movies = this.moviesService.GetAll<MovieDTO>();            
@@ -42,18 +46,23 @@
         }
 
         [Route("/api/movies/{id}")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetOneByIdInJSON(int id)
         {
             var movie = this.moviesService.GetById<MovieDTO>(id);
             return this.Json(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(AddMovieViewModel movieData)
         {
             if (!ModelState.IsValid)
@@ -77,6 +86,7 @@
             return Redirect("/movies");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -95,7 +105,9 @@
             return this.View(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, EditMovieViewModel movieData)
         {
             var movieExists = this.moviesService.DoesMovieExist(id);
@@ -130,6 +142,7 @@
             return Redirect("/movies");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -148,8 +161,10 @@
             return this.View(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult PostDelete(int id)
         {
             var movieExists = this.moviesService.DoesMovieExist(id);

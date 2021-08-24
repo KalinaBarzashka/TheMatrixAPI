@@ -74,5 +74,10 @@
 
             this.dbContext.SaveChanges();
         }
+
+        public bool IsTokenValid(string tokenId)
+        {
+            return this.dbContext.ApplicationUsers.Any(x => x.TokenId == tokenId);
+        }
     }
 }

@@ -20,33 +20,56 @@
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            if (context.Request.Path.StartsWithSegments("/api"))
+            var method = context.Request.Method;
+            if(method == "POST")
             {
-                var ip = context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
-                if (ip == "0.0.0.1")
+                var requestTokenId = context.Request.Form["tokenId"].ToString();
+                if (!this.iPTokenMiddlewareService.IsTokenValid(requestTokenId))
                 {
-                    ip = "127.0.0.1";
+                    throw new Exception("Invalid token!");
                 }
-
-                var user = await this.userManager.GetUserAsync(context.User);
 
                 try
                 {
-                    if (user != null)
-                    {
-                        var tokenId = user.TokenId;
-                        this.iPTokenMiddlewareService.AddRecordByTokenId(tokenId, DateTime.UtcNow.ToString("dd/MM/yyyy"));
-                    }
-                    else
-                    {
-                        this.iPTokenMiddlewareService.AddRecordByIp(ip, DateTime.UtcNow.ToString("dd/MM/yyyy"));
-                    }
+                    this.iPTokenMiddlewareService.AddRecordByTokenId(requestTokenId, DateTime.UtcNow.ToString("dd/MM/yyyy"));
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message);
                 }
             }
+            else if (method == "GET")
+            {
+                if (context.Request.Path.StartsWithSegments("/api"))
+                {
+                    var ip = context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+                    if (ip == "0.0.0.1")
+                    {
+                        ip = "127.0.0.1";
+                    }
+
+                    var user = await this.userManager.GetUserAsync(context.User);
+
+                    try
+                    {
+                        if (user != null)
+                        {
+                            var tokenId = user.TokenId;
+                            this.iPTokenMiddlewareService.AddRecordByTokenId(tokenId, DateTime.UtcNow.ToString("dd/MM/yyyy"));
+                        }
+                        else
+                        {
+                            this.iPTokenMiddlewareService.AddRecordByIp(ip, DateTime.UtcNow.ToString("dd/MM/yyyy"));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                }
+            }
+            
+            
 
             await next(context);
         }

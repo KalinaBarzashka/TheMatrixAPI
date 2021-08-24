@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<TheMatrixAPI.Models.DbModels.ApplicationUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,18 +23,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Movies" asp-action="Index">Movies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Actors" asp-action="Index">Actors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Races" asp-action="Index">Races</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Characters" asp-action="Index">Characters</a>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Movies" asp-action="Index">Movies</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Actors" asp-action="Index">Actors</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Races" asp-action="Index">Races</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Characters" asp-action="Index">Characters</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -64,6 +70,7 @@
         background-color: #0b0d12;
         border-bottom: solid 1px rgba(255,255,255,0.15) !important;
     }
+
     .Application__navbar-brand {
         display: inline-block;
         padding-top: .3125rem;
@@ -73,9 +80,10 @@
         line-height: inherit;
         white-space: nowrap;
     }
-    .Application__navbar-brand:hover {
-        text-decoration: none;
-    }
+
+        .Application__navbar-brand:hover {
+            text-decoration: none;
+        }
 
     .Application__footer {
         background-color: #0b0d12;

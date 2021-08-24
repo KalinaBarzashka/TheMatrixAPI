@@ -1,5 +1,6 @@
 ﻿namespace TheMatrixAPI.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using TheMatrixAPI.Models;
@@ -16,6 +17,7 @@
             this.racesService = racesService;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("/races")]
         public IActionResult Index()
         {
@@ -25,6 +27,8 @@
         }
 
         [Route("/api/races")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetAllInJSON()
         {
             var races = this.racesService.GetAll<RaceDTO>();
@@ -32,18 +36,23 @@
         }
 
         [Route("/api/races/{id}")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetOneByIdInJSON(int id)
         {
             var movie = this.racesService.GetById<RaceDTO>(id);
             return this.Json(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(AddRaceViewModel raceData)
         {
             if (!ModelState.IsValid)
@@ -67,6 +76,7 @@
             return Redirect("/races");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -85,7 +95,9 @@
             return this.View(race);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, EditRaceViewModel raceData)
         {
             var raceExists = this.racesService.DoesRaceExist(id);
@@ -120,6 +132,7 @@
             return Redirect("/races");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -138,8 +151,10 @@
             return this.View(race);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult PostDelete(int id)
         {
             var raceExists = this.racesService.DoesRaceExist(id);
@@ -175,6 +190,7 @@
             return Redirect("/races");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Details(int id)
         {
             var raceDetails = this.racesService.GetRaceDetailsById<RaceDetailsViewModel>(id);

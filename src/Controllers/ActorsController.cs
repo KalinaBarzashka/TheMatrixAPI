@@ -1,5 +1,6 @@
 ﻿namespace TheMatrixAPI.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
@@ -22,6 +23,7 @@
             this.charactersService = charactersService;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("/actors")]
         public IActionResult Index()
         {
@@ -34,6 +36,8 @@
         }
 
         [Route("/api/actors")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetAllJson()
         {
             var actors = this.actorsService.GetAll<ActorDTO>();
@@ -41,18 +45,23 @@
         }
 
         [Route("/api/actors/{id}")]
+        [HttpGet]
+        [HttpPost]
         public IActionResult GetActorById(int id)
         {
             var actor = this.actorsService.GetById<ActorDTO>(id);
             return this.Json(actor);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(AddActorViewModel actorData)
         {
             if (!ModelState.IsValid)
@@ -76,6 +85,7 @@
             return this.Redirect("/actors");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var actorExists = this.actorsService.DoesActorExist(id);
@@ -111,7 +121,9 @@
             return this.View(actor);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, EditActorViewModel actorData)
         {
             var actorExists = this.actorsService.DoesActorExist(id);
@@ -169,6 +181,7 @@
             return Redirect("/actors");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var actorExists = this.actorsService.DoesActorExist(id);
@@ -186,8 +199,10 @@
             return this.View(actor);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult PostDelete (int id)
         {
             var actorExists = this.actorsService.DoesActorExist(id);
