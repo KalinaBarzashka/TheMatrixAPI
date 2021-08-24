@@ -98,6 +98,15 @@
         public void DeleteById(int id)
         {
             var actor = this.dbContext.Actors.Where(x => x.Id == id).FirstOrDefault();
+
+            var characterId = actor.CharacterId;
+            if(characterId != null)
+            {
+                var character = this.dbContext.Characters.Where(x => x.Id == characterId).FirstOrDefault();
+                character.ActorId = null;
+                this.dbContext.SaveChanges();
+            }
+
             this.dbContext.Actors.Remove(actor);
             this.dbContext.SaveChanges();
         }
