@@ -8,6 +8,7 @@
     using TheMatrixAPI.Models.DbModels;
     using TheMatrixAPI.Models.DTO;
     using TheMatrixAPI.Models.DTO.Character;
+    using TheMatrixAPI.Models.DTO.Quote;
     using TheMatrixAPI.Models.DTO.Race;
     using TheMatrixAPI.Models.Movie;
     using TheMatrixAPI.Models.Race;
@@ -96,6 +97,9 @@
                     opt => opt.MapFrom(src => src.Race.Name));
 
             CreateMap<Character, DeleteCharacterViewModel>();
+
+            CreateMap<Quote, QuoteDTO>();
+            CreateMap<Character, QuoteCharacterDTO>();
         }
     }
 }

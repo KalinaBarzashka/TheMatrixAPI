@@ -37,6 +37,7 @@ namespace TheMatrixAPI
             services.AddTransient<IIPTokenMiddlewareService, IPTokenMiddlewareService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IQuotesService, QuotesService>();
             services.AddTransient<IPTokenMiddleware, IPTokenMiddleware>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();

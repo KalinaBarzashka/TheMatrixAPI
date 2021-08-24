@@ -20,28 +20,29 @@
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            var method = context.Request.Method;
-            if(method == "POST")
+            if (context.Request.Path.StartsWithSegments("/api"))
             {
-                var requestTokenId = context.Request.Form["tokenId"].ToString();
-                if (!this.iPTokenMiddlewareService.IsTokenValid(requestTokenId))
+                var method = context.Request.Method;
+                if (method == "POST")
                 {
-                    throw new Exception("Invalid token!");
-                }
+                    var requestTokenId = context.Request.Form["tokenId"].ToString();
+                    if (!this.iPTokenMiddlewareService.IsTokenValid(requestTokenId))
+                    {
+                        throw new Exception("Invalid token!");
+                    }
 
-                try
-                {
-                    this.iPTokenMiddlewareService.AddRecordByTokenId(requestTokenId, DateTime.UtcNow.ToString("dd/MM/yyyy"));
+                    try
+                    {
+                        this.iPTokenMiddlewareService.AddRecordByTokenId(requestTokenId, DateTime.UtcNow.ToString("dd/MM/yyyy"));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else if (method == "GET")
                 {
-                    throw new Exception(ex.Message);
-                }
-            }
-            else if (method == "GET")
-            {
-                if (context.Request.Path.StartsWithSegments("/api"))
-                {
+
                     var ip = context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
                     if (ip == "0.0.0.1")
                     {
@@ -68,8 +69,6 @@
                     }
                 }
             }
-            
-            
 
             await next(context);
         }
