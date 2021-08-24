@@ -38,7 +38,7 @@
         [Route("/api/movies")]
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> GetAllInJSON()
+        public IActionResult GetAllInJSON()
         {
             var movies = this.moviesService.GetAll<MovieDTO>();            
 

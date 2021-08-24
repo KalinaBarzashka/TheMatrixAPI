@@ -5,6 +5,7 @@ namespace TheMatrixAPI
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -59,7 +60,10 @@ namespace TheMatrixAPI
 
             //services.AddScoped<UserManager<ApplicationUser>>();
 
-            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+            services.AddControllersWithViews(options => {
+                //options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            })
+                .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
             services.AddRouting(opts =>
             {
