@@ -1,0 +1,39 @@
+﻿@model TheMatrixAPI.Models.Home.StatisticsViewModel
+
+<div class="container d-flex mt-4">
+    <div class="col-2">
+        <h4>Statistics</h4>
+        <p>Movies: @Model.Movies</p>
+        <p>Actors: @Model.Actors</p>
+        <p>Characters: @Model.Characters</p>
+        <p>Quotes: @Model.Quotes</p>
+        <p>Races: @Model.Races</p>
+    </div>
+    <div class="col-10">
+        <h2>What is this?</h2>
+        <p>The Matrix API is the world's first quantified and programmatically-formatted set of The Matrix data.</p>
+        <p>After hours of watching films and trawling through content online, we present to you all the <strong>Moves, Actors, Characters, Quotes and Races</strong> from The Matrix.</p>
+        <p>We've formatted this data in <a href="https://json.org"><strong>JSON</strong></a> and exposed it to you in a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer"><strong>RESTish</strong></a> implementation that allows you to programmatically collect and measure the data.</p>
+        <p><a href="/documentation">Check out the documentation to get started consuming matrix data</a></p>
+
+        <h2>Here are some examples:</h2>
+        <pre style="color: #3dfe10">
+            <code>
+var client = new RestClient("https://thematrixapi.com/api/actors");
+var request = new RestRequest(Method.POST);
+request.AddHeader("postman-token", "0b80fe48-3192-022a-dd07-6d11f060db98");
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+request.AddParameter("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW", "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"tokenId\"\r\n\r\n0310dbf6-cc32-45a0-b34d-db3f99680c25\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);</code>
+        </pre>
+
+        <h2>Original author?</h2>
+        <p>This project was originally built and maintained by <a href="https://www.linkedin.com/in/kalina-barzashka-b240b1189/">Kalina Barzashka</a>.</p>
+
+        <h2>Copyright and stuff?</h2>
+        <p>The Matrix and all associated names are copyright of Warner Bros.</p>
+        <p>This project is open source and carries a GNU licence.</p>
+        <p>All data has been freely collected from open sources such as <a href="https://www.matrixfans.net/">Matrix fanpage</a>.</p>
+    </div>
+</div>
