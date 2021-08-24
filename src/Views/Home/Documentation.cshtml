@@ -1,5 +1,495 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{ ViewData["Title"] = "Docs"; }
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <h5>Getting started</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#intro">Introduction</a></li>
+                <li class="list-group-item"><a href="#start">Getting started</a></li>
+                <li class="list-group-item"><a href="#base">Base URL</a></li>
+                <li class="list-group-item"><a href="#rate">Rate limiting</a></li>
+                <li class="list-group-item"><a href="#auth">Authentication</a></li>
+            </ul>
+            <h5>Encodings</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#json">JSON</a></li>     
+            </ul>
+            <h5>Resources</h5>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="#root">Root</a></li>
+                <li class="list-group-item"><a href="#movies">Movies</a></li>
+                <li class="list-group-item"><a href="#actors">Actors</a></li>
+                <li class="list-group-item"><a href="#characters">Characters</a></li>
+                <li class="list-group-item"><a href="#races">Races</a></li>
+                <li class="list-group-item"><a href="#quotes">Quotes</a></li>
+            </ul>   
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <h1>Documentation</h1>
+            <hr>
+            <p><a name="intro"></a></p>
+            <h3>Introduction</h3>
+            <p>Welcome to The Matrix Api! This documentation should help you familiarise yourself with the resources available and how to consume them with HTTP requests. If you're after a native helper library then I suggest you scroll down and check out what's available. Read through the getting started section before you dive in. Most of your problems should be solved just by reading through it.</p>
+            <p><a name="start"></a></p>
+            <h3>Getting started</h3>
+            <p>Let's make our first API request to The Matrix API!</p>
+            <p>Open up a terminal and use <a href="http://curl.haxx.se">curl</a> or <a href="http://httpie.org">httpie</a> to make an API request for a resource. In the example below, we're trying to get the first movie, The Matrix:</p>
+
+            <pre class="Documentation__pre"><code>http thematrixapi.com/api/movies/1</code></pre>
+
+            <p>We'll use <a href="http://httpie.org">httpie</a> for our examples as it displays responses nicely and gives us a whole lot more useful information. If you don't want to download httpie, just use the <em>curl</em> command instead.</p>
+
+            <p>Here is the response we get:</p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": 4,
+  "name": "The Matrix",
+  "imageUrl": "https://thematrixapi.com/images/The_Matrix_1_Poster.jpg",
+  "movieNumber": 1,
+  "movieLength": 136,
+  "director": "The Wachowskis",
+  "producer": "Joel Silver",
+  "distributedBy": "Warner Bros. Pictures",
+  "releaseDate": "1999-03-31T00:00:00",
+  "country": "United States",
+  "language": "English",
+  "budget": 63.00,
+  "boxOffice": 464.70,
+  "actors": [],
+  "races": null
 }
+</code></pre>
+
+            <p>If your response looks slightly different don't panic. This is probably because more data has been added to the api since we made this documentation.</p>
+            <p><a name="base"></a></p>
+            <h3>Base URL</h3>
+            <p>The <strong>Base URL</strong> is the root URL for all of the API, if you ever make a request to "The Matrix API" and you get back a <strong>404 NOT FOUND</strong> response then check the Base URL first.</p>
+            <p>The Base URL for The Matrix Api is:</p>
+
+<pre class="Documentation__pre"><code>https://thematrixapi.com/api/</code></pre>
+
+            <p>The documentation below assumes you are prepending the Base URL to the endpoints in order to make requests.</p>
+
+            <p><a name="rate"></a></p>
+            <h3>Rate limiting</h3>
+            <p>The Matrix API has rate limiting to prevent malicious abuse (as if anyone would abuse The Matrix data!) and to make sure our service can handle a potentially large amount of traffic. Rate limiting is done via IP address and is currently limited to 10 API request per day. This is enough to request all the data on the website at least ten times over. There should be no reason for hitting the rate limit.</p>
+
+            <p><a name="auth"></a></p>
+            <h3>Authentication</h3>
+            <p>The Matrix API is a <strong>completely open API</strong>. No authentication is required to query and get data. This also means that we've limited what you can do to just <strong>GET</strong>-ing the data. If you find a mistake in the data, then <a href="mailto:kalina.barzashka@gmail.com">email the author</a> about it.</p>
+
+            <h1>Encodings</h1>
+            <hr>
+            <p>The Matrix API provides one encodings for you to render the data with:</p>
+
+            <p><a name="json"></a></p>
+            <h3>JSON</h3>
+            <p>JSON is an industry standard data format and is the default encoding provided by The Matrix API.</p>
+
+            <h1>Resources</h1>
+            <hr>
+            <p><a name="root"></a></p>
+            <h3>Root</h3>
+
+            <p>The Root resource provides information on all available resources within the API.</p>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+    "movies": "https://thematrixapi.com/api/movies/",
+    "actors": "https://thematrixapi.com/api/actors/",
+    "characters": "https://thematrixapi.com/api/characters/",
+    "races": "https://thematrixapi.com/api/races/",
+    "quotes": "https://thematrixapi.com/api/quotes/"
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+            <ul>
+                <li>
+                    <code>movies</code> <em>string</em>
+                    -- The URL root for Movie resources
+                </li>
+                <li>
+                    <code>actors</code> <em>string</em>
+                    -- The URL root for Actor resources
+                </li>
+                <li>
+                    <code>characters</code> <em>string</em>
+                    -- The URL root for Character resources
+                </li>
+                <li>
+                    <code>races</code> <em>string</em>
+                    -- The URL root for Race resources
+                </li>
+                <li>
+                    <code>quotes</code> <em>string</em>
+                    -- The URL root for Quote resources
+                </li>
+            </ul>
+
+            <hr>
+
+            <p><a name="movies"></a></p>
+            <h3>Movies</h3>
+            <p>A Movie resource is a single film.</p>
+
+            <p><strong>Endpoints</strong></p>
+            <ul>
+                <li><code>/movies/</code> -- get all the movies resources</li>
+                <li><code>/movies/:id/</code> -- get a specific movie resource</li>
+            </ul>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/movies/1/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": 4,
+  "name": "The Matrix",
+  "imageUrl": "https://thematrixapi.com/images/The_Matrix_1_Poster.jpg",
+  "movieNumber": 1,
+  "movieLength": 136,
+  "director": "The Wachowskis",
+  "producer": "Joel Silver",
+  "distributedBy": "Warner Bros. Pictures",
+  "releaseDate": "1999-03-31T00:00:00",
+  "country": "United States",
+  "language": "English",
+  "budget": 63.00,
+  "boxOffice": 464.70,
+  "actors": [],
+  "races": null
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+
+            <ul>
+                <li>
+                    <code>id</code> <em>integer</em>
+                    -- The id of this movie
+                </li>
+                <li>
+                    <code>name</code> <em>string</em>
+                    -- The name of this movie
+                </li>
+                <li>
+                    <code>imageUrl</code> <em>string</em>
+                    -- The image url of this movie
+                </li>
+                <li>
+                    <code>movieNumber</code> <em>integer</em>
+                    -- The episode number of this movie.
+                </li>
+                <li>
+                    <code>movieLength</code> <em>integer</em>
+                    -- The episode duration in minutes.
+                </li>
+                <li>
+                    <code>director</code> <em>string</em>
+                    -- The name of the director of this movie.
+                </li>
+                <li>
+                    <code>producer</code> <em>string</em>
+                    -- The name(s) of the producer(s) of this movie. Comma separated.
+                </li>
+                <li>
+                    <code>distributedBy</code> <em>string</em>
+                    -- The name of the publisher company of this movie
+                </li>
+                <li>
+                    <code>releaseDate</code> <em>date</em>
+                    -- The ISO 8601 date format of film release at original creator country.
+                </li>
+                <li>
+                    <code>country</code> <em>string</em>
+                    -- The country where the movie debuts.
+                </li>
+                <li>
+                    <code>language</code> <em>string</em>
+                    -- The official language in this movie.
+                </li>
+                <li>
+                    <code>budget</code> <em>decimal</em>
+                    -- How much was the initial budget of the movie.
+                </li>
+                <li>
+                    <code>boxOffice</code> <em>decimal</em>
+                    -- How much the movie earned money worldwide.
+                </li>
+                <li>
+                    <code>actors</code> <em>array</em>
+                    -- An array of actors resource URLs that are in this film.
+                </li>
+            </ul>
+
+            <hr>
+
+            <p><a name="actors"></a></p>
+            <h3>Actors</h3>
+            <p>The Actors resource is an individual person who acted as a character within the Star Wars universe.</p>
+
+            <p><strong>Endpoints</strong></p>
+
+            <ul>
+                <li><code>/actors/</code> -- get all the actors resources</li>
+                <li><code>/actors/:id/</code> -- get a specific actor resource</li>
+            </ul>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/actors/1/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": 1,
+  "firstName": "Hugo",
+  "middleName": "Wallace",
+  "lastName": "Weaving",
+  "fullName": "Hugo Wallace Weaving",
+  "characterId": null,
+  "character": {
+    "id": 4,
+    "name": "Agent Smith"
+  },
+  "movies": [
+    {
+      "id": 1,
+      "name": "The Matrix 4",
+      "url": "https://thematrixapi.com/api/movies/1"
+    }
+  ]
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+
+            <ul>
+                <li>
+                    <code>id</code> <em>integer</em>
+                    -- The id of this actor.
+                </li>
+                <li>
+                    <code>firstName</code> <em>string</em>
+                    -- The first name of this actor.
+                </li>
+                <li>
+                    <code>middleName</code> <em>string</em>
+                    -- The middle name of this actor.
+                </li>
+                <li>
+                    <code>lastName</code> <em>string</em>
+                    -- The family name of this actor.
+                </li>
+                <li>
+                    <code>fullName</code> <em>string</em>
+                    -- The full name of this actor.
+                </li>
+                <li>
+                    <code>character</code> <em>string</em>
+                    -- The character this actor is playing in the movies.
+                </li>
+                <li>
+                    <code>movies</code> <em>array</em>
+                    -- An array of film resource URLs that this person has been in.
+                </li>      
+            </ul>
+
+            <hr>
+
+            <p><a name="characters"></a></p>
+            <h3>Characters</h3>
+            <p>The Character resource is an individual person or character within the Matrix universe.</p>
+
+            <p><strong>Endpoints</strong></p>
+            <ul>
+                <li><code>/characters/</code> -- get all the characters resources</li>
+                <li><code>/characters/:id/</code> -- get a specific character resource</li>
+            </ul>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/characters/1/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": 1,
+  "name": "Morpheus",
+  "alignment": "Good",
+  "raceName": "Humans",
+  "actorName": "LaurenceFishburne III",
+  "quotes": []
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+
+            <ul>
+                <li>
+                    <code>id</code> <em>integer</em>
+                    -- The id of this character.
+                </li>
+                <li>
+                    <code>name</code> <em>string</em>
+                    -- The name of this character.
+                </li>
+                <li>
+                    <code>alignment</code> <em>string</em>
+                    -- The alignment of this character. Good or Bad.
+                </li>
+                <li>
+                    <code>raceName</code> <em>string</em>
+                    -- The race this character belongs to
+                </li>
+                <li>
+                    <code>actorName</code> <em>string</em>
+                    -- The actor playing this character
+                </li>
+                <li>
+                    <code>quotes</code> <em>array</em>
+                    -- An array of notable quotes, the character says in the movies.
+                </li>
+            </ul>
+
+            <hr>
+
+            <p><a name="races"></a></p>
+            <h3>Races</h3>
+            <p>The Races resource represents the three main forces in the movies so far.</p>
+
+            <p><strong>Endpoints</strong></p>
+            <ul>
+                <li><code>/races/</code> -- get all the races resources</li>
+                <li><code>/races/:id/</code> -- get a specific race resource</li>
+            </ul>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/races/1/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": 1,
+  "name": "Humans"
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+
+            <ul>
+                <li>
+                    <code>id</code> <em>integer</em>
+                    -- The id of that race.
+                </li>
+                <li>
+                    <code>name</code> <em>string</em>
+                    -- The name of this race.
+                </li>  
+            </ul>
+
+            <hr>
+
+            <p><a name="quotes"></a></p>
+            <h3>Quotes</h3>
+            <p>A Quote resource represents a notable speech, a character said in the movies.</p>
+
+            <p><strong>Endpoints</strong></p>
+
+            <ul>
+                <li><code>/quotes/</code> -- get all the quotes resources</li>
+                <li><code>/quotes/:id/</code> -- get a specific quote resource</li>
+            </ul>
+
+            <p><strong>Example request:</strong></p>
+
+<pre class="Documentation__pre"><code>http https://thematrixapi.com/api/quotes/1/
+</code></pre>
+
+            <p><strong>Example response:</strong></p>
+
+<pre class="Documentation__pre"><code>HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+    "id": "1",
+    "quoteLine": "How About I Give You The Finger, And You Give Me My Phone Call.",
+    "characterId": "2",
+    "character": {
+        "id": 1,
+        "name": "Neo",
+        "actorName": Keanu Reeves
+    }
+}
+</code></pre>
+
+            <p><strong>Attributes:</strong></p>
+
+            <ul>
+                <li>
+                    <code>id</code> <em>integer</em>
+                    -- The id of this quote.
+                </li>
+                <li>
+                    <code>quoteLine</code> <em>string</em>
+                    -- The notable speech itself.
+                </li>
+                <li>
+                    <code>characterId</code> <em>integer</em>
+                    -- The id of the character, who says the speech in the movies.
+                </li>
+                <li>
+                    <code>character</code> <em>object</em>
+                    -- The character object populated by id.
+                </li>
+            </ul>
+          
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    .Documentation__pre {
+        background: #32383e;
+        padding: 5px;
+        color: var(--theme-link-color);
+    }
+
+    .list-group-item {
+        border: 1px solid rgba(0,0,0,0.4);
+        background-color: #32383e;
+    }
+
+    hr {
+        border-top: 1px solid rgb(50 56 62) !important;
+    }
+</style>
