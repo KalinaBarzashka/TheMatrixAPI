@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using TheMatrixAPI.Models;
     using TheMatrixAPI.Models.DTO.Quote;
     using TheMatrixAPI.Models.Quote;
@@ -29,6 +30,25 @@
                 .OrderBy(x => x.Character.Name);
 
             return this.View(quotes);
+        }
+
+        [Route("/api/quotes")]
+        [HttpGet]
+        [HttpPost]
+        public IActionResult GetAllInJSON()
+        {
+            var quotes = this.quotesService.GetAll<QuoteDTO>();
+
+            return this.Json(quotes);
+        }
+
+        [Route("/api/quotes/{id}")]
+        [HttpGet]
+        [HttpPost]
+        public IActionResult GetOneByIdInJSON(int id)
+        {
+            var quote = this.quotesService.GetById<QuoteDTO>(id);
+            return this.Json(quote);
         }
 
         [Authorize(Roles = "Admin")]

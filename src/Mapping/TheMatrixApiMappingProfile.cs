@@ -71,7 +71,7 @@
                     opt => opt.MapFrom(src => src.Race.Name))
                 .ForMember(
                     dto => dto.ActorName,
-                    opt => opt.MapFrom(src => src.Actor.FirstName + src.Actor.LastName));
+                    opt => opt.MapFrom(src => src.Actor.FirstName + " " + src.Actor.LastName));
             CreateMap<Quote, CharacterQuoteDTO>();
 
             CreateMap<Character, CharacterDetailsViewModel>()
@@ -80,7 +80,7 @@
                     opt => opt.MapFrom(src => src.Race.Name))
                 .ForMember(
                     dto => dto.ActorName,
-                    opt => opt.MapFrom(src => src.Actor.FirstName + src.Actor.LastName));
+                    opt => opt.MapFrom(src => src.Actor.FirstName + " " + src.Actor.LastName));
             CreateMap<Quote, CharacterQuoteDetailsViewModel>();
 
             CreateMap<Actor, DeleteActorViewModel>();
@@ -100,7 +100,10 @@
             CreateMap<Character, DeleteCharacterViewModel>();
 
             CreateMap<Quote, QuoteDTO>();
-            CreateMap<Character, QuoteCharacterDTO>();
+            CreateMap<Character, QuoteCharacterDTO>()
+                .ForMember(
+                    dto => dto.ActorName,
+                    opt => opt.MapFrom(src => src.Actor.FirstName + " " + src.Actor.LastName));
             CreateMap<Character, QuoteCharacterViewModel>();
         }
     }
